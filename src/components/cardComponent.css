@@ -1,0 +1,25 @@
+.card {
+  width: 229px;
+  height: 185px;
+  border-radius: 10px;
+  border-top: 2px solid #1f78b4;
+  border-right: 2px solid #1f78b4;
+  background: #000;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  position: relative;
+  left: 50%;
+}
+
+.background {
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  display: flex;
+}
+
+.income {
+  position: absolute;
+  top: 12%;
+  left: 12%;
+  justify-items: center;
+}
