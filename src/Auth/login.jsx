@@ -1,6 +1,7 @@
 import loginLogo from '../assets/loginLogo.svg';
 import usernameLogo from '../assets/usernameLogo.svg';
 import passwordLogo from '../assets/passwordLogo.svg';
+import { Link } from 'react-router-dom';
 const Login = () =>{
     return(
         <>
@@ -16,7 +17,7 @@ const Login = () =>{
                 <input className='bg-transparent h-inherit outline-none border-0 text-white placeholder:text-main' type="text" name='password' placeholder='PASSWORD' />
                 </div>
                 <button className='bg-main text-black h-14 text-2xl rounded-lg w-full mt-5' type='submit'>Login</button>
-                <p className='text-sm text-white mt-3'>New user? <a className='text-main' href="#">Create an account</a></p>
+                <p className='text-sm text-white mt-3'>New user? <Link className='text-main' to={'/signup'}>Create an account</Link></p>
 
                 
             </form>
