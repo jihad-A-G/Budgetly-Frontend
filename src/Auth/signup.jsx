@@ -2,6 +2,7 @@ import signupLogo from '../assets/signupLogo.svg';
 import usernameLogo from '../assets/usernameLogo.svg';
 import passwordLogo from '../assets/passwordLogo.svg';
 import emailLogo from '../assets/emailLogo.svg'
+import { Link } from 'react-router-dom';
 const Signup = () =>{
     return(
         <>
@@ -21,7 +22,7 @@ const Signup = () =>{
                 <input className='bg-transparent h-inherit outline-none border-0 text-white placeholder:text-main' type="text" name='password' placeholder='PASSWORD' />
                 </div>
                 <button className='bg-main text-black h-14 text-2xl rounded-lg w-full mt-5' type='submit'>Signup</button>
-                <p className='text-sm text-white mt-3'>Already have an account? <a className='text-main' href="#">Sign in</a></p>
+                <p className='text-sm text-white mt-3'>Already have an account? <Link className='text-main' to={'/login'}>Sign in</Link></p>
                 
             </form>
         </section>
