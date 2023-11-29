@@ -5,12 +5,13 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 // import Signup from './Auth/signup.jsx'
 import Login from './Auth/login.jsx'
 import Signup from './Auth/signup.jsx'
-import App from './App.jsx'
+// import App from './App.jsx'
+import TransactionCard from './dashboard/transactionCard.jsx'
 
 const router =createBrowserRouter([
   {
     path:'/',
-    element:<App/>
+    element:<TransactionCard/>,
   },
   {
     path:'/login',
