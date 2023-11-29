@@ -1,4 +1,4 @@
-import incomeLogo from '../assets/incomeLogo.svg';
+import JincomeLogo from '../assets/JincomeLogo.svg';
 import expenseLogo from '../assets/expenseLogo.svg'; 
 import balanceLogo from '../assets/balanceLogo.svg';
 import arrow from '../assets/arrow.svg'
@@ -8,7 +8,7 @@ const TransactionCard = () =>{
         <>
          <div className="w-[258px] h-[178px] p-5 flex flex-col rounded-lg bg-[#1b2028] text-white font-semibold leading-3">
             <div className="flex items-center gap-5 mb-5">
-                <div className="rounded-lg w-11 h-11 bg-dashboardLogoBackground flex items-center justify-center"><img src={incomeLogo} alt="incomes"/></div>
+                <div className="rounded-lg w-11 h-11 bg-dashboardLogoBackground flex items-center justify-center"><img src={JincomeLogo} alt="incomes"/></div>
                 
                 <h1 className="text-base ">Incomes</h1>
             </div>

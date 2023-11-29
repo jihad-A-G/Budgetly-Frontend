@@ -9,14 +9,7 @@
 html,body{
     width: 100vw;
     height: 100vh;
-    background-color: #31353f;
-}
-.travel-table-heading::after{
-    content: '';
-    display: block;
-    float: right;
-    border-right: 1px solid #e8edeb;
-    height: 20px;
+    background-color: #1B1B1B;
 }
 
 .action-btn{
