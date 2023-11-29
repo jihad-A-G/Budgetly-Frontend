@@ -7,14 +7,14 @@ const SideBar = () => {
       className="bg-[#1b2028] flex flex-col h-screen w-14%"
       aria-label="Sidebar"
     >
-      <div className="flex self-center pt-8 pb-5">
+      <div className="flex items justify-start pt-8 pb-5 pl-4">
         <Link className="flex" to="#">
           <img
             src={budgetlyLogo}
             alt="Budgetly Logo"
             className="flex h-9 w-9"
           />
-          <p className="flex text-main text-3xl font-semibold font-inter pl-1">
+          <p className="flex justify-start text-main text-3xl font-semibold font-inter pl-1">
             Budgetly
           </p>
         </Link>
@@ -198,9 +198,8 @@ const SideBar = () => {
           </li>
         </ul>
 
-        <hr className="bg-white filter blur-[2px] mt-12" />
 
-        <div className="w-full max-w-sm bg-[#31353f] rounded-lg shadow mt-12">
+        <div className="w-full max-w-sm bg-[#31353f] rounded-lg shadow mt-20">
           <div className="flex flex-col items-center pb-10">
             <img
               className="w-24 h-24 mb-3 bg-white rounded-full shadow-lg mt-10"
