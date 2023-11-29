@@ -1,5 +1,5 @@
-import SideBar from "./sideBar";
-import NavBar from "./navBar";
+import SideBar from "./src/components/sideBar";
+import NavBar from "./src/components/navBar";
 const CategoryPage = () => {
   return (
     <>
