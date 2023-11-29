@@ -1,7 +1,7 @@
 const NavBar = () => {
   return (
     <>
-      <nav className="bg-[#2F2F2F] w-86% h-24 absolute right-0 flex items-center">
+      <nav className="bg-[#31353f] w-86% h-24 absolute right-0 flex items-center">
         <div className="flex justify-between items-center p-4 w-full">
           <div className="flex items-center p-10">
             <p className="text-white text-2xl font-semibold font-inter">
@@ -32,7 +32,7 @@ const NavBar = () => {
               <input
                 type="text"
                 id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-main border border-main rounded-lg bg-[#2F2F2F]"
+                className="block w-full p-2 ps-10 text-sm text-main border border-main rounded-lg bg-[#31353f]"
                 placeholder="Search..."
               />
             </div>
@@ -42,7 +42,7 @@ const NavBar = () => {
               data-collapse-toggle="navbar-search"
               aria-controls="navbar-search"
               aria-expanded="false"
-              className="md:hidden text-main hover:bg-[#2F2F2F] rounded-xl text-sm p-2.5 me-1"
+              className="md:hidden text-main rounded-xl text-sm p-2.5 me-1"
             >
               <svg
                 className="w-5 h-5"
