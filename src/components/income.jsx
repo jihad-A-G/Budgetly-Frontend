@@ -14,7 +14,7 @@ const Income = () => {
   };
 
   return (
-    <div className="income-container w-4/5 mr-auto ml-auto flex flex-col font-inter shadow-2xl rounded-lg bg-contentBackground">
+    <div className="income-container w-80 mr-auto ml-auto flex flex-col font-inter shadow-2xl rounded-lg bg-contentBackground">
       <div className="margin mt-20">
         <div className="headings-title-icons flex justify-between items-center h-14 mb-10">
           <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5">Income</h1>
