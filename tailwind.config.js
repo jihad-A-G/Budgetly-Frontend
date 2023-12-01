@@ -7,6 +7,7 @@ export default {
         'authBackground':'#1B1B1B',
         'dashboardLogoBackground':'#31353f',
         'main':'#83BA9B',
+        'contentBackground':'#1b2028',
       },
       backgroundImage: {
         authBackgroundImg: "url('src/assets/authBackground.svg')",
@@ -27,8 +28,14 @@ export default {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },
-      
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      borderRadius: {
+        '10': '10px',
+      },
     },
   },
-  plugins: [],
-};
+  plugins: ['tailwindcss-gap'],
+}
+
