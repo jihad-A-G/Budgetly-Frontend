@@ -7,8 +7,9 @@ export default {
   theme: {
     extend: {
       colors:{
-        'authBackground':'#1B1B1B',
+        'authBackground':'#31353f',
         'main':'#83BA9B',
+        'contentBackground':'#1b2028',
       },
       backgroundImage:{
         'authBackgroundImg':"url('src/assets/authBackground.svg')",
@@ -23,8 +24,14 @@ export default {
       borderWidth:{
         '1':'1px',
       },
+      fontFamily: {
+        inter: ['Inter', 'sans-serif'],
+      },
+      borderRadius: {
+        '10': '10px',
+      },
     },
   },
-  plugins: [],
+  plugins: ['tailwindcss-gap'],
 }
 
