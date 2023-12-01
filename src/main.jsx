@@ -6,12 +6,13 @@ import Login from './Auth/login.jsx'
 import Signup from './Auth/signup.jsx'
 import CategoryPage from '../categoryPage.jsx'
 // import App from './App.jsx'
-import TransactionCard from './dashboard/transactionCard.jsx'
+// import TransactionCard from './dashboard/transactionCard.jsx'
+import TransactionChart from './dashboard/transactionChart.jsx'
 
 const router =createBrowserRouter([
   {
     path:'/',
-    element:<TransactionCard/>,
+    element:<TransactionChart/>,
   },
   {
     path:'/login',
