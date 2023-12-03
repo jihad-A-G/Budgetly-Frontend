@@ -5,30 +5,21 @@ import { createBrowserRouter,RouterProvider } from 'react-router-dom'
 import Login from './Auth/login.jsx'
 import Signup from './Auth/signup.jsx'
 import CategoryPage from '../categoryPage.jsx'
-import SideBar from './components/sideBar.jsx'
-import NavBar from './components/navBar.jsx'
-import Income from './components/income.jsx'
-// import App from './App.jsx'
-import TransactionCard from './dashboard/transactionCard.jsx'
-
-const Dashboard = () => {
-  return (
-  <div>
-  <SideBar/>
-  <NavBar/>
-  <Income/>
-  </div>
-  )
-}
+import App from './App.jsx'
+import Dashboard from './dashboard/dashboard.jsx'
+// import TransactionCard from './dashboard/transactionCard.jsx'
+// import TransactionChart from './dashboard/transactionChart.jsx'
 
 const router =createBrowserRouter([
   {
-    path:'/dashboard',
-    element: <Dashboard/>
-  },
-  {
-    path:'/transactions',
-    element:<TransactionCard/>,
+    path:'/',
+    element:<App/>,
+    children:[
+      {
+        path:'dashboard',
+        element:<Dashboard/>
+      }
+    ]
   },
   {
     path:'/login',
