@@ -1,51 +1,22 @@
+import { useState } from "react";
+
 const NavBar = () => {
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
     <>
-      <nav className="bg-[#31353f] w-86% h-24 absolute right-0 flex items-center">
-        <div className="flex justify-between items-center p-4 w-full">
-          <div className="flex items-center p-10">
-            <p className="text-white text-2xl font-semibold font-inter">
-              Dashboard
-            </p>
-          </div>
+      <nav className="bg-[#31353f] flex justify-between">
 
-          <div className="flex items-center">
-            <div className="relative hidden md:block ml-auto">
-              <div className="absolute inset-y-0 start-0 flex items-center justify-end ps-3 pointer-events-none">
-                <svg
-                  className="w-4 h-4 text-main"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-                <span className="sr-only">Search icon</span>
-              </div>
-              <input
-                type="text"
-                id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-main border border-main rounded-lg bg-[#31353f]"
-                placeholder="Search..."
-              />
-            </div>
+        <div className="flex items-center p-10">
+          <p className="text-white text-2xl font-semibold font-inter">
+            Dashboard
+          </p>
+        </div>
 
-            <button
-              type="button"
-              data-collapse-toggle="navbar-search"
-              aria-controls="navbar-search"
-              aria-expanded="false"
-              className="md:hidden text-main rounded-xl text-sm p-2.5 me-1"
-            >
+        <div className="flex items-center">
+          <div className="relative hidden md:block ml-auto">
+            <div className="absolute inset-y-0 start-0 flex items-center justify-end ps-3 pointer-events-none">
               <svg
-                className="w-5 h-5"
+                className="w-4 h-4 text-main"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -59,11 +30,87 @@ const NavBar = () => {
                   d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
                 />
               </svg>
-              <span className="sr-only">Search</span>
-            </button>
+              <span className="sr-only">Search icon</span>
+            </div>
+            <input
+              type="text"
+              id="search-navbar"
+              className="block w-full p-2 ps-10 text-sm text-main border border-main rounded-lg bg-[#31353f]"
+              placeholder="Search..."
+            />
           </div>
 
-          <div className="flex items-center p-10">
+          <button
+            type="button"
+            data-collapse-toggle="navbar-search"
+            aria-controls="navbar-search"
+            aria-expanded="false"
+            className="md:hidden text-main rounded-xl text-sm p-2.5 me-1"
+          >
+            <svg
+              className="w-5 h-5"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+            <span className="sr-only">Search</span>
+          </button>
+        </div>
+
+        <div className="flex items-center p-10 relative">
+          <button onClick={() => setDropdownOpen(!dropdownOpen)} className="relative z-10 block rounded-md bg-white p-2 focus:outline-none">
+            <svg className="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+            </svg>
+          </button>
+
+          {dropdownOpen && (
+            <div className="fixed inset-0 h-full w-full z-10" onClick={() => setDropdownOpen(false)}></div>
+          )}
+
+          {dropdownOpen && (
+            <div className="absolute right-0 top-20 bg-white rounded-md shadow-lg overflow-hidden z-20" style={{ width: '20rem' }}>
+              <div className="py-2">
+                <a href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                  <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />
+                  <p className="text-gray-600 text-sm mx-2">
+                    <span className="font-bold" href="#">Sara Salah</span> replied on the <span className="font-bold text-blue-500" href="#">Upload Image</span> artical . 2m
+                  </p>
+                </a>
+                <a href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                  <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80" alt="avatar" />
+                  <p className="text-gray-600 text-sm mx-2">
+                    <span className="font-bold" href="#">Slick Net</span> start following you . 45m
+                  </p>
+                </a>
+                <a href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
+                  <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1450297350677-623de575f31c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />
+                  <p className="text-gray-600 text-sm mx-2">
+                    <span className="font-bold" href="#">Jane Doe</span> Like Your reply on <span className="font-bold text-blue-500" href="#">Test with TDD</span> artical . 1h
+                  </p>
+                </a>
+                <a href="#" className="flex items-center px-4 py-3 hover:bg-gray-100 -mx-2">
+                  <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=398&q=80" alt="avatar" />
+                  <p className="text-gray-600 text-sm mx-2">
+                    <span className="font-bold" href="#">Abigail Bennett</span> start following you . 3h
+                  </p>
+                </a>
+              </div>
+              <a href="#" className="block bg-gray-800 text-white text-center font-bold py-2">See all notifications</a>
+            </div>
+          )}
+        </div>
+
+        {/* <div className="flex items-center p-10">
             <button type="button" >
               <svg
                 className="text-white"
@@ -88,8 +135,8 @@ const NavBar = () => {
                 />
               </svg>
             </button>
-          </div>
-        </div>
+          </div> */}
+
       </nav>
     </>
   );

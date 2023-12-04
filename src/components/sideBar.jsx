@@ -1,14 +1,17 @@
 import { Link } from "react-router-dom";
 import budgetlyLogo from "../assets/budgetlyLogo.svg";
+import { useState } from "react";
+import AddForm from "./addForm.jsx";
 
 const SideBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <aside
-      className="bg-[#1b2028] flex flex-col h-screen w-14%"
+      className="bg-[#1b2028] rounded-10 h-full"
       aria-label="Sidebar"
     >
-      <div className="flex items justify-start pt-8 pb-5 pl-4">
-        <Link className="flex" to="#">
+      <div className="flex items justify-center pt-8 ">
+        <Link className="flex " to="#">
           <img
             src={budgetlyLogo}
             alt="Budgetly Logo"
@@ -20,7 +23,7 @@ const SideBar = () => {
         </Link>
       </div>
 
-      <div className="h-full px-4 py-4">
+      <div className="px-4 py-4 items-center">
         <ul className="flex flex-col space-y-3 justify-center">
           <li>
             <Link
@@ -211,12 +214,16 @@ const SideBar = () => {
             </h5>
             <span className="text-sm text-white ">Admin</span>
             <div className="flex mt-4 ml-2 md:mt-6">
-              <Link
-                to="#"
-                className="inline-flex items-center px-6 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
-              >
-                Edit
-              </Link>
+              <div
+                className="inline-flex items-center px-6 py-3 text-m font-medium text-center text-main rounded-xl hover:bg-main group hover:text-white">
+                <button onClick={() => setIsOpen(true)}>Edit</button>
+                
+                <AddForm open={isOpen}/>
+          
+                    <button onClick={() => setIsOpen(false)}>Cancel</button>
+                  
+                
+              </div>
               <Link
                 to="#"
                 className="inline-flex items-center px-5 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
