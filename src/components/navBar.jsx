@@ -64,7 +64,9 @@ const NavBar = () => {
           </div>
 
           <div className="flex items-center p-10">
-            <button type="button" >
+            <button type="button">
+            {/* <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-sky-400 opacity-75"></span> */}
+
               <svg
                 className="text-white"
                 xmlns="http://www.w3.org/2000/svg"

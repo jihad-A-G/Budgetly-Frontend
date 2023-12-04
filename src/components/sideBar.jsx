@@ -1,13 +1,47 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import budgetlyLogo from "../assets/budgetlyLogo.svg";
+import AProfile from "../components/AProfile";
 
 const SideBar = () => {
+  //trying to do edit the profile
+
+  //   const EditTheProfile = () => {
+  //     const[refreshProfile,setRefreshProfile]=useState("");
+  //     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
+  //     const [Profile, setProfile] = useState([]);
+  //   }
+
+  //   const [editedProfile, setEditedProfile] = useState({
+  //     username: "",
+  //     email: "",
+  //     password:"",
+  // });
+  //   ///////////////////////////////
+  //     useEffect(()=> {
+  //       const handleUpdateBlog = async (e) => {
+  //         const confirmUpdate=window.confirm ("Are you sure you want to update your profile?");
+  //         e.preventDefault()
+
+  //         if (confirmUpdate) {
+  //           try {
+  //             const
+  //           } catch (error) {
+
+  //           }
+  //         }
+  //       }
+  //     })
+
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
+
+  // Function to toggle editing profile state
+  const handleEditProfileClick = () => {
+    setIsEditingProfile(!isEditingProfile);
+  };
   return (
-    <aside
-      className="bg-[#1b2028] flex flex-col h-screen w-14%"
-      aria-label="Sidebar"
-    >
-      <div className="flex items justify-start pt-8 pb-5 pl-4">
+    <aside className="bg-[#1b2028] rounded-10 h-full" aria-label="Sidebar">
+      <div className="flex items justify-start pt-8 pb-5">
         <Link className="flex" to="#">
           <img
             src={budgetlyLogo}
@@ -198,7 +232,6 @@ const SideBar = () => {
           </li>
         </ul>
 
-
         <div className="w-full max-w-sm bg-[#31353f] rounded-lg shadow mt-20">
           <div className="flex flex-col items-center pb-10">
             <img
@@ -211,12 +244,23 @@ const SideBar = () => {
             </h5>
             <span className="text-sm text-white ">Admin</span>
             <div className="flex mt-4 ml-2 md:mt-6">
-              <Link
+              {/* <Link
                 to="#"
                 className="inline-flex items-center px-6 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
+                onClick={AProfile}
               >
                 Edit
-              </Link>
+              </Link> */}
+              <button
+                onClick={handleEditProfileClick}
+                className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
+              >
+                {/* Edit profile icon or text */}
+                  Edit
+              </button>
+
+              {/* AProfile content */}
+              {isEditingProfile && <AProfile />}
               <Link
                 to="#"
                 className="inline-flex items-center px-5 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
