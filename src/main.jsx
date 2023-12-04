@@ -9,6 +9,7 @@ import App from './App.jsx'
 import Dashboard from './dashboard/dashboard.jsx'
 // import TransactionCard from './dashboard/transactionCard.jsx'
 // import TransactionChart from './dashboard/transactionChart.jsx'
+// import Income from './components/income.jsx'
 
 const router =createBrowserRouter([
   {
@@ -17,8 +18,13 @@ const router =createBrowserRouter([
     children:[
       {
         path:'dashboard',
+        index:true,
         element:<Dashboard/>
-      }
+      },
+      {
+        path:'category',
+        element:<CategoryPage/>
+      },
     ]
   },
   {
@@ -29,10 +35,7 @@ const router =createBrowserRouter([
     path:'/signup',
     element:<Signup/>
   },
-  {
-    path:'/category',
-    element:<CategoryPage/>
-  },
+  
 ])
 
 ReactDOM.createRoot(document.getElementById("root")).render(

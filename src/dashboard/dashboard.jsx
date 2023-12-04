@@ -1,5 +1,5 @@
 import TransactionCard from "./transactionCard";
-import TransactionChart from "./transactionChart";
+import TransactionChart from "./transactionChart.jsx";
 const Dashboard = () =>{
     return(
         <>
