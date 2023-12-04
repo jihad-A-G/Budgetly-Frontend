@@ -4,34 +4,6 @@ import budgetlyLogo from "../assets/budgetlyLogo.svg";
 import AProfile from "../components/AProfile";
 
 const SideBar = () => {
-  //trying to do edit the profile
-
-  //   const EditTheProfile = () => {
-  //     const[refreshProfile,setRefreshProfile]=useState("");
-  //     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
-  //     const [Profile, setProfile] = useState([]);
-  //   }
-
-  //   const [editedProfile, setEditedProfile] = useState({
-  //     username: "",
-  //     email: "",
-  //     password:"",
-  // });
-  //   ///////////////////////////////
-  //     useEffect(()=> {
-  //       const handleUpdateBlog = async (e) => {
-  //         const confirmUpdate=window.confirm ("Are you sure you want to update your profile?");
-  //         e.preventDefault()
-
-  //         if (confirmUpdate) {
-  //           try {
-  //             const
-  //           } catch (error) {
-
-  //           }
-  //         }
-  //       }
-  //     })
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
 
@@ -46,7 +18,7 @@ const SideBar = () => {
           <img
             src={budgetlyLogo}
             alt="Budgetly Logo"
-            className="flex h-9 w-9"
+            className="flex h-9 w-9 items-center"
           />
           <p className="flex justify-start text-main text-3xl font-semibold font-inter pl-1">
             Budgetly
@@ -54,7 +26,7 @@ const SideBar = () => {
         </Link>
       </div>
 
-      <div className="h-full px-4 py-4">
+      <div className="h-full px-8 py-9">
         <ul className="flex flex-col space-y-3 justify-center">
           <li>
             <Link
@@ -232,7 +204,7 @@ const SideBar = () => {
           </li>
         </ul>
 
-        <div className="w-full max-w-sm bg-[#31353f] rounded-lg shadow mt-20">
+        <div className="w-full max-w-sm bg-[#31353f] rounded-lg shadow mt-20 ">
           <div className="flex flex-col items-center pb-10">
             <img
               className="w-24 h-24 mb-3 bg-white rounded-full shadow-lg mt-10"
@@ -252,8 +224,8 @@ const SideBar = () => {
                 Edit
               </Link> */}
               <button
-                onClick={handleEditProfileClick}
-                className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
+                onClick={()=> handleEditProfileClick(true)}
+                className="inline-flex items-center px-6 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
               >
                 {/* Edit profile icon or text */}
                   Edit
