@@ -1,115 +1,184 @@
-
-// const CategoryTable = () => {
-//   return (
-//     <div className="flex bg-main border rounded-lg items-center justify-center ">
-//             <table className="w-full text-sm text-left rtl:text-right">
-//               <thead className="text-xs text-gray-700 uppercase ">
-//                 <tr>
-//                   <th scope="col" className="px-6 py-3">
-//                     Category Name
-//                   </th>
-//                   <th scope="col" className="px-6 py-3">
-//                     User
-//                   </th>
-//                   <th scope="col" className="px-6 py-3">
-//                     Date
-//                   </th>
-//                   <th scope="col" className="px-6 py-3">
-//                     Created At
-//                   </th>
-//                   <th scope="col" className="px-6 py-3">
-//                     Action
-//                   </th>
-//                 </tr>
-//               </thead>
-
-//               <tbody>
-//                 <tr className="bg-[#31353f] border-b justify-center text-main hover:bg-main hover:animate-pulse hover:text-white">
-//                   <th
-//                     scope="row"
-//                     className="px-6 py-4 font-medium whitespace-nowrap justify-center flex"
-//                   >
-//                     Apple MacBook Pro 17
-//                   </th>
-//                   <td className="px-6 py-4">Silver</td>
-//                   <td className="px-6 py-4">Laptop</td>
-//                   <td className="px-6 py-4">$2999</td>
-//                   <td className="px-6 py-4 ">
-//                     <a
-//                       href="#"
-//                       className="font-medium hover:underline align-center px-4"
-//                     >
-//                       Edit
-//                     </a>
-
-//                     <a
-//                       href="#"
-//                       className="font-medium hover:underline align-center hover:animate-pulse-text-red-500"
-//                     >
-//                       Delete
-//                     </a>
-//                   </td>
-//                 </tr>
-//               </tbody>
-//             </table>
-//           </div>
-//   )
-// }
-
-// export default CategoryTable
-
-
-// ... (other imports)
 import { useState, useEffect } from "react";
-const CategoryTable = () => {
-  const [tableData, setTableData] = useState([]);
+import mCategory from "../assets/Icons/Categories.svg";
+import mCalendar from "../assets/Icons/Calendar.svg";
+import mEdit from "../assets/Icons/Edit-logo.svg";
+import mDelete from "../assets/Icons/Delete-logo.svg";
+import mAdd from "../assets/Icons/Add-logo.svg";
+import AupArrow from "../assets/Icons/AupArrow.svg";
+import AdownArrow from "../assets/Icons/AdownArrow.svg";
+
+const Category = () => {
+  const [categories, setCategories] = useState([]);
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const handleSortToggle = () => {
+    const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
+    setSortOrder(newSortOrder);
+  };
+
+  
+
+  // Add a category
+  
+
+  //edit a category
+
+
+  //Delete a category
+    const handleDeleteCategory = async (categoryId) => {
+      const confirmDelete = window.confirm("Are you sure you want to delete this category?");
+      if (confirmDelete) {
+        try {
+          const response = await fetch(`http://localhost:5000/api/category/${categoryId}`, {
+            method: "DELETE",
+          });
+  
+          if (response.ok) {
+            console.log("Category deleted successfully");
+            setCategories((prevCategories) =>
+              prevCategories.filter((category) => category.id !== categoryId)
+            );
+          } else {
+            console.error("Failed to delete category");
+          }
+        } catch (error) {
+          console.error("Error:", error);
+        }
+      }
+    };
+
 
   useEffect(() => {
-    // Fetch data from the backend
-    // Example: fetch('/api/data').then(response => response.json()).then(data => setTableData(data));
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/category");
+        const json = await response.json();
 
-    // For the sake of demonstration, let's assume you receive data like this:
-    const newData = [
-      { id: 1, name: 'Item 1', column2: 'Value 1', column3: 'Value 2', column4: 'Value 3', column5: 'Value 4' },
-      // Add more items as needed
-    ];
+        if (response.ok) {
+          setCategories(json);
+        } else {
+          console.error("Failed to fetch categories:", json);
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-    setTableData(newData);
-  }, []); // Empty dependency array means this effect runs once when the component mounts
-
+    fetchCategories();
+  }, []);
 
   return (
-    <>
-      <div className="flex flex-col">
-        <table className="w-1/2 shadow hover:shadow-lg items-center justify-center border-t-2 border-main border-r-2 border rounded-xl text-center">
-          <thead className="bg-main text-dashboard">
-            <tr>
-              <th scope="col" className="px-6 py-2 rtl:text-right">Category ID</th>
-              <th scope="col" className="px-6 py-2 rtl:text-right">Category Name</th>
-              <th scope="col" className="px-6 py-2 text-center">User</th>
-              <th scope="col" className="px-6 py-2 text-center">Date</th>
-              <th scope="col" className="px-6 py-2 text-center">Created At</th>
-              <th scope="col" className="px-6 py-2 rtl:text-right">Action</th>
-            </tr>
-          </thead>
-          <tbody className="hover:animate-pulse bg-dashboard text-main hover:bg-main hover:text-white">
-            {tableData.map((row) => (
-              <tr className="row" key={row.id}>
-                <td className="px-6 py-3 rtl:text-right">{row.id}</td>
-                <td className="px-6 py-3 rtl:text-right">{row.name}</td>
-                <td className="px-6 py-3 text-center">{row.column2}</td>
-                <td className="px-6 py-3 text-center">{row.column3}</td>
-                <td className="px-6 py-3 text-center">{row.column4}</td>
-                <td className="rtl:text-right">
-                  {/* Add your action buttons or links here */}
-                </td>
+    <div className="flex ">
+      <div className="margin mt-20">
+        <div className="headings-title-icons flex justify-between items-center h-14 mb-10">
+          <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5"></h1>
+          <div className="flex flex-col items-center mr-5">
+            <button className="text-white text-sm hover:text-blue-500">
+              <img className="add-logo-img h-12 " src={mAdd} alt="Add" />
+              Add
+            </button>
+          </div>
+        </div>
+        <div className="filtration flex justify-end mb-6 mr-5">
+          <div className="flex gap-10 justify-between items-center">
+            <div className="flex flex-col items-center">
+              <button className="text-white text-sm hover:text-blue-500 ">
+                <div className="flex flex-col items-center">
+                  <img
+                    className="add-logo-img h-12 transform transition-transform duration-300 hover:-translate-y-1/4"
+                    src={mCategory}
+                    alt="Categories"
+                  />
+                  <span className="mt-1">Categories</span>
+                </div>
+              </button>
+            </div>
+            <div className="flex flex-col gap- items-center">
+              <button className="text-white text-sm hover:text-blue-500 flex-col">
+                <div className="flex flex-col items-center">
+                  <img
+                    className="add-logo-img h-12 transform transition-transform duration-300 hover:-translate-y-1/4"
+                    src={mCalendar}
+                    alt="Calendar"
+                  />
+                  <span className="mt-1">Calendar</span>
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="income-table-container rounded-10">
+          <table className="income-table w-full border border-main ">
+            <thead>
+              <tr className="income-heading bg-main text-black text-bold">
+                <th className="flex-1 py-2 px-4 text-center ">
+                  Category ID
+                </th>
+                <th className="flex-1 py-2 px-4 text-center ">
+                  Category
+                </th>
+                <th
+                  className="flex-1 py-2 px-4 text-center "
+                  onClick={handleSortToggle}
+                >
+                  Date
+                  {sortOrder === "asc" && (
+                  
+                      <img className="inline-flex m-1" src={AupArrow}></img>
+                    
+                  )}
+                  {sortOrder === "desc" && (
+                    <img className="inline-flex m-1" src={AdownArrow}></img>
+                  )}
+                </th>
+                <th className="flex-1 py-2 px-4 text-center ">
+                  Created At
+                </th>
+                <th className="flex-1 py-2 px-4 text-center ">User</th>
+                <th className="flex-1 py-2 px-4 text-center ">
+                  Action
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {categories.map((category) => (
+                <tr
+                  className="income-content hover:animate-pulse hover:bg-main"
+                  key={category._id}
+                >
+                  <td className="flex-1 py-2 px-4 text-center text-white">
+                    {category.id}
+                  </td>
+                  <td className="flex-1 py-2 px-4 text-center text-white">
+                    {category.category_name}
+                  </td>
+                  <td className="flex-1 py-2 px-4 text-center text-white">
+                    {category.date}
+                  </td>
+                  <td className="flex-1 py-2 px-4 text-center text-white">
+                    2023-01-01
+                  </td>
+                  <td className="flex-1 py-2 px-4 text-center text-white">
+                    {category.userId}
+                  </td>
+                  <td className="flex-1 py-2 px-4 text-center">
+                    <div className="flex justify-evenly">
+                      <button className="py-2 px-4">
+                        <img src={mEdit} alt="Edit" />
+                      </button>
+                      <button className="py-2 px-4" onClick = {()=> handleDeleteCategory(category.id)}>
+                        <img src={mDelete} alt="Delete" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default CategoryTable;
+export default Category;

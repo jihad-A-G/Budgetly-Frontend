@@ -1,7 +1,7 @@
 const NavBar = () => {
   return (
     <>
-      <nav className="bg-[#31353f] w-86% h-24 absolute right-0 flex items-center">
+      <nav className="bg-[#31353f] w-full h-24 flex items-center">
         <div className="flex justify-between items-center p-4 w-full">
           <div className="flex items-center p-10">
             <p className="text-white text-2xl font-semibold font-inter">
@@ -32,7 +32,7 @@ const NavBar = () => {
               <input
                 type="text"
                 id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-main border border-main rounded-lg bg-[#31353f]"
+                className="block w-full p-2 ps-10 text-sm text-white border border-main rounded-lg bg-[#31353f]"
                 placeholder="Search..."
               />
             </div>

@@ -5,29 +5,39 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Login from "./Auth/login.jsx";
 import Signup from "./Auth/signup.jsx";
 import CategoryPage from "../categoryPage.jsx";
-import CategoryTable from "./components/ACategoryTable.jsx";
 import App from "./App.jsx";
+import Dashboard from "./dashboard/dashboard.jsx";
+import Income from "./components/income.jsx";
+// import TransactionCard from './dashboard/transactionCard.jsx'
+// import TransactionChart from './dashboard/transactionChart.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-  },
-  {
-    path: "/login",
-    element: <Login />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/category",
-    element: <CategoryPage />,
-  },
-  {
-    path: "/table",
-    element: <CategoryTable />,
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+      {
+        path: "/category",
+        element: <CategoryPage />,
+      },
+      {
+        path: "/income",
+        element: <Income />,
+      }
+      
+    ],
   },
 ]);
 

@@ -1,14 +1,12 @@
-import SideBar from "./src/components/sideBar";
-import NavBar from "./src/components/navBar";
-import ACard from "./src/components/ACard";
+// import ACard from "./src/components/ACard";
+import ACategoryTable from "./src/components/ACategoryTable"
 const CategoryPage = () => {
   
   return (
     <>
-      <div className="flex">
-        <NavBar />
-        <SideBar />
-        <ACard />
+      <div>
+        {/* <ACard /> */}
+        <ACategoryTable/>
       </div>
     </>
   );
