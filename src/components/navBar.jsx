@@ -65,7 +65,6 @@ const NavBar = () => {
             <span className="sr-only">Search</span>
           </button>
         </div>
-
         <div className="flex items-center p-10 relative">
           <button onClick={() => setDropdownOpen(!dropdownOpen)} className="relative z-10 block rounded-md bg-white p-2 focus:outline-none">
             <svg className="h-5 w-5 text-gray-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
