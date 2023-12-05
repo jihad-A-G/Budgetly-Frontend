@@ -10,7 +10,7 @@ const SideBar = () => {
       className="bg-[#1b2028] rounded-10 h-full"
       aria-label="Sidebar"
     >
-      <div className="flex items justify-center pt-8 ">
+      <div className="flex px-4  pt-8 ">
         <Link className="flex " to="#">
           <img
             src={budgetlyLogo}
