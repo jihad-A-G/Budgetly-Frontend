@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import mCategory from "../assets/Icons/Categories.svg";
 import mCalendar from "../assets/Icons/Calendar.svg";
 import mEdit from "../assets/Icons/Edit-logo.svg";
 import mDelete from "../assets/Icons/Delete-logo.svg";
@@ -12,10 +11,12 @@ const Category = () => {
   const [categories, setCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [AddForm, setAddForm] = useState(false);
-  const [formData, setFormData] = useState({
-    category_name: "",
-    date: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   category_name: "",
+  //   date: "",
+  // });
+  const [EditForm, setEditForm] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
 
   const handleSortToggle = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
@@ -24,14 +25,56 @@ const Category = () => {
 
   // Add a category
   const handleAddCategory = async () => {
-    setAddForm(true); // Set AddForm to true when the button is clicked
+    setAddForm(true);
   };
 
   const handleCancel = () => {
     setAddForm(false);
   };
 
-  //edit a category
+  // Edit a category
+  const handleEditCategory = (category) => {
+    setEditingCategory(category);
+    setEditForm(true);
+  };
+
+  const handleCancelEdit = () => {
+    setEditForm(false);
+  };
+
+  const handleSubmitEdit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const updatedCategory = {
+      category_name: formData.get("category_name"),
+      date: formData.get("category.date"),
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/category/${editingCategory.id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(updatedCategory),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        console.log("Category updated successfully");
+        setCategories((prevCategories) =>
+          prevCategories.map((category) =>
+            category.id === editingCategory.id ? updatedCategory : category
+          )
+        );
+        setEditForm(false);
+      } else {
+        console.error("Failed to update category");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
 
   //Delete a category
   const handleDeleteCategory = async (categoryId) => {
@@ -108,11 +151,7 @@ const Category = () => {
               name="category_name"
               placeholder="Category Name"
             />
-            <input
-              type="date"
-              name="date"
-              placeholder="Date"
-            />
+            <input type="date" name="date" placeholder="Date" />
             {/* Add more form fields as needed */}
             <button
               type="submit"
@@ -127,18 +166,6 @@ const Category = () => {
         )}
         <div className="filtration flex justify-end mb-6 mr-5">
           <div className="flex gap-10 justify-between items-center">
-            <div className="flex flex-col items-center">
-              <button className="text-white text-sm hover:text-blue-500 ">
-                <div className="flex flex-col items-center">
-                  <img
-                    className="add-logo-img h-12 transform transition-transform duration-300 hover:-translate-y-1/4"
-                    src={mCategory}
-                    alt="Categories"
-                  />
-                  <span className="mt-1">Categories</span>
-                </div>
-              </button>
-            </div>
             <div className="flex flex-col gap- items-center">
               <button className="text-white text-sm hover:text-blue-500 flex-col">
                 <div className="flex flex-col items-center">
@@ -195,13 +222,52 @@ const Category = () => {
                     2023-01-01
                   </td>
                   <td className="flex-1 py-2 px-4 text-center text-white">
-                    {category.User.username}
+                  {category.User ? category.User.username : 'N/A'}
                   </td>
                   <td className="flex-1 py-2 px-4 text-center">
                     <div className="flex justify-evenly">
-                      <button className="py-2 px-4">
+                      <button
+                        className="py-2 px-4"
+                        onClick={() => handleEditCategory(category)}
+                      >
                         <img src={mEdit} alt="Edit" />
                       </button>
+                      {EditForm && (
+                        <Form method="PATCH" onSubmit={handleSubmitEdit}>
+                          <div className="form--body">
+                            <label htmlFor="Category Name">Category Name</label>
+                            <input
+                              defaultValue={editingCategory.category_name}
+                              type="text"
+                              name="category_name"
+                              placeholder="category_name"
+                            />
+                            <label htmlFor="date">Date</label>
+                            <input
+                              defaultValue={editingCategory.date}
+                              type="date"
+                              name="category.date"
+                              placeholder="category date"
+                            />
+                            <label htmlFor="text">User</label>
+                            <input
+                              defaultValue={editingCategory.User.username}
+                              type="text"
+                              name="userId"
+                              placeholder="User ID"
+                            />
+                          </div>
+                          <button
+                            type="submit"
+                            className="bg-main text-black h-14 text-2xl rounded-lg w-full mt-5"
+                          >
+                            Submit
+                          </button>
+                          <button type="button" onClick={handleCancelEdit}>
+                            Cancel
+                          </button>
+                        </Form>
+                      )}
                       <button
                         className="py-2 px-4"
                         onClick={() => handleDeleteCategory(category.id)}

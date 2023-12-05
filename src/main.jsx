@@ -32,10 +32,6 @@ const router = createBrowserRouter([
         //   return data.users;
         // },
       },
-      // {
-      //   path: "category",
-      //   element: <CategoryPage />,
-      // },
       {
         path: "/category",
         element: <CategoryPage />,
@@ -43,11 +39,11 @@ const router = createBrowserRouter([
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           try {
-             await axios.post(
-              "http://localhost:5000/api/category",
-              { ...data,userId:1 }
-            );
-            return redirect('/category')
+            await axios.post("http://localhost:5000/api/category", {
+              ...data,
+              userId: 3,
+            });
+            return redirect("/category");
             // if (response.status == 200) {
             //   localStorage.setItem("token", response.data.token);
             //   return redirect("/dashboard");
@@ -56,10 +52,55 @@ const router = createBrowserRouter([
             // }
           } catch (err) {
             console.log(err);
-            return redirect("/login");
+            return redirect("/category");
           }
         },
       },
+      {
+        path:'category/:id',
+        element:<CategoryPage/>,
+        loader:async ({params}) =>{
+          const response = await axios.get(`http://localhost:5000/api/category/${params.id}`);
+          return response.data;
+          
+        },
+        action:async ({request,params}) =>{
+          const formData= await request.formData();
+          const data = Object.fromEntries(formData);
+          console.log(data);
+          const response= await axios.patch(`http://localhost:5000/api/category/${params.id}`,{...data});
+
+          if(!response){
+            throw response;
+          }
+          return redirect("/dashboard");
+        }
+      }  
+
+
+    /*
+     {
+          path:'News/:id/edit',
+          element:<AdminForm/>,
+          loader:async ({params}) =>{
+            const response = await axios.get(`https://tpll-31oj.onrender.com/api/article/${params.id}`);
+            return response.data;
+          },
+          action:async ({request,params}) =>{
+            const formData= await request.formData();
+            const data = Object.fromEntries(formData);
+            console.log(data);
+            const response= await axios.patch(`https://tpll-31oj.onrender.com/api/article/${params.id}`,{...data},{ headers: {
+              'Content-Type': 'multipart/form-data',
+            },});
+
+            if(!response){
+              throw response;
+            }
+            return redirect("admin/dashboard/News");
+          }
+        }  
+    */
     ],
   },
   {
@@ -93,7 +134,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
- 
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import close from './assets/close.svg'
+// import close from './assets/close.svg'
 const Test = () =>{
   const [img, setImg] =useState('/src/assets/SUII.png');
   const [imgtoSubmit,setImgtoSubmit]=useState(null);
@@ -85,7 +85,6 @@ if (file) {
           Username
         </label>
         <div className="w-full h-11 rounded-lg flex items-center px-3 gap-5 border-1 border-main mb-5">
-                   
                 <input className='bg-transparent h-inherit outline-none border-0 text-white placeholder:text-main' type="text" name='username' placeholder='USERNAME' />
                 </div>
       </div>
