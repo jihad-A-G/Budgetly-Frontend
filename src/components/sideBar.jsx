@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import budgetlyLogo from "../assets/budgetlyLogo.svg";
-import { useState } from "react";
-import AddForm from "./addForm.jsx";
 
 const SideBar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
     <aside
       className="bg-[#1b2028] rounded-10 h-full"
@@ -214,16 +211,12 @@ const SideBar = () => {
             </h5>
             <span className="text-sm text-white ">Admin</span>
             <div className="flex mt-4 ml-2 md:mt-6">
-              <div
-                className="inline-flex items-center px-6 py-3 text-m font-medium text-center text-main rounded-xl hover:bg-main group hover:text-white">
-                <button onClick={() => setIsOpen(true)}>Edit</button>
-                
-                <AddForm open={isOpen}/>
-          
-                    <button onClick={() => setIsOpen(false)}>Cancel</button>
-                  
-                
-              </div>
+              <Link
+                to="#"
+                className="inline-flex items-center px-6 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
+              >
+                Edit
+              </Link>
               <Link
                 to="#"
                 className="inline-flex items-center px-5 py-3 text-m font-medium text-center  text-main rounded-xl hover:bg-main group hover:text-white"
