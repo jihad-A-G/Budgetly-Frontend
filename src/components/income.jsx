@@ -1,18 +1,26 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import mCategory from '../assets/Icons/Categories.svg';
 import mCalendar from '../assets/Icons/Calendar.svg';
 import mEdit from '../assets/Icons/Edit-logo.svg';
 import mDelete from '../assets/Icons/Delete-logo.svg';
 import mAdd from '../assets/Icons/Add-logo.svg';
-
+import SideBar from './sideBar';
+import NavBar from './navBar';
+import AddForm from './addForm'
 
 const Income = () => {
-  const [income, setIncome] = useState([])
+  const [data, setData] = useState([]);
+  const [isOpen, setIsOpen] = useState(false);
+  const [income, setIncome] = useState([]);
   const [sortOrder, setSortOrder] = useState('asc');
   const handleSortToggle = () => {
     const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
     setSortOrder(newSortOrder);
   };
+
+  const addData = (newData) => {
+    setData((prevData) => [...prevData, newData]);
+   };
 
   useEffect(() => {
     const fetchIncome = async () => {
@@ -28,14 +36,20 @@ const Income = () => {
 
   return (
     < div className="flex">
+      <div className='flex flex-col w-1/5 justify-center'>
+        <SideBar />
+      </div>
+      <div className="income-container w-4/5 mr-auto ml-auto flex flex-col font-inter shadow-2xl rounded-lg bg-contentBackground">
+        <NavBar />
         <div className="margin mt-20">
           <div className="headings-title-icons flex justify-between items-center h-14 mb-10">
-            <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5"></h1>
+            <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5">Income</h1>
             <div className="flex flex-col items-center mr-5">
-              <button className='text-white text-sm hover:text-blue-500'>
+              <button onClick={() => setIsOpen(true)} className='text-white text-sm hover:text-blue-500'>
                 <img className="add-logo-img h-12 " src={mAdd} alt="Add" />
                 Add
               </button>
+              <AddForm open={isOpen} addData={addData} />
             </div>
           </div>
           <div className="filtration flex justify-end mb-6 mr-5">
@@ -78,12 +92,11 @@ const Income = () => {
                 <>
                   {income.map((incomes) => {
                     return (
-                      <div key={incomes.id}>
-                      <tr className="income-content hover:animate-pulse hover:bg-main">
+                      <tr className="income-content hover:animate-pulse hover:bg-main" key={incomes.id}>
                         <td className="flex-1 py-2 px-4 text-center text-white">{incomes.income_name}</td>
                         <td className="flex-1 py-2 px-4 text-center text-white">{incomes.income_amount}</td>
                         <td className="flex-1 py-2 px-4 text-center text-white">{incomes.date}</td>
-                        <td className="flex-1 py-2 px-4 text-center text-white">2023-01-01</td>
+                        <td className="flex-1 py-2 px-4 text-center text-white">{incomes.createdAt}</td>
                         <td className="flex-1 py-2 px-4 text-center text-white">{incomes.Category.category_name}</td>
                         <td className="flex-1 py-2 px-4 text-center">
                           <div className="flex justify-evenly">
@@ -96,7 +109,7 @@ const Income = () => {
                           </div>
                         </td>
                       </tr>
-                      </div>
+
                     )
                   })}
                 </>
@@ -104,7 +117,7 @@ const Income = () => {
             </table>
           </div>
         </div>
-    
+      </div>
     </div>
 
   );

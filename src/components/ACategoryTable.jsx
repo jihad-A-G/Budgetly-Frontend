@@ -6,54 +6,66 @@ import mDelete from "../assets/Icons/Delete-logo.svg";
 import mAdd from "../assets/Icons/Add-logo.svg";
 import AupArrow from "../assets/Icons/AupArrow.svg";
 import AdownArrow from "../assets/Icons/AdownArrow.svg";
+import { Form } from "react-router-dom";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
+  const [AddForm, setAddForm] = useState(false);
+  const [formData, setFormData] = useState({
+    category_name: "",
+    date: "",
+  });
 
   const handleSortToggle = () => {
     const newSortOrder = sortOrder === "asc" ? "desc" : "asc";
     setSortOrder(newSortOrder);
   };
 
-  
-
   // Add a category
-  
+  const handleAddCategory = async () => {
+    setAddForm(true); // Set AddForm to true when the button is clicked
+  };
+
+  const handleCancel = () => {
+    setAddForm(false);
+  };
 
   //edit a category
 
-
   //Delete a category
-    const handleDeleteCategory = async (categoryId) => {
-      const confirmDelete = window.confirm("Are you sure you want to delete this category?");
-      if (confirmDelete) {
-        try {
-          const response = await fetch(`http://localhost:5000/api/category/${categoryId}`, {
+  const handleDeleteCategory = async (categoryId) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this category?"
+    );
+    if (confirmDelete) {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/category/${categoryId}`,
+          {
             method: "DELETE",
-          });
-  
-          if (response.ok) {
-            console.log("Category deleted successfully");
-            setCategories((prevCategories) =>
-              prevCategories.filter((category) => category.id !== categoryId)
-            );
-          } else {
-            console.error("Failed to delete category");
           }
-        } catch (error) {
-          console.error("Error:", error);
-        }
-      }
-    };
+        );
 
+        if (response.ok) {
+          console.log("Category deleted successfully");
+          setCategories((prevCategories) =>
+            prevCategories.filter((category) => category.id !== categoryId)
+          );
+        } else {
+          console.error("Failed to delete category");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const response = await fetch("http://localhost:5000/api/category");
         const json = await response.json();
-        
 
         if (response.ok) {
           setCategories(json);
@@ -72,14 +84,47 @@ const Category = () => {
     <div className="flex ">
       <div className="margin mt-20">
         <div className="headings-title-icons flex justify-between items-center h-14 mb-10">
-          <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5">Categories</h1>
+          <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5">
+            Categories
+          </h1>
           <div className="flex flex-col items-center mr-5">
-            <button className="text-white text-sm hover:text-blue-500">
+            <button
+              className="text-white text-sm hover:text-blue-500"
+              onClick={handleAddCategory}
+            >
               <img className="add-logo-img h-12 " src={mAdd} alt="Add" />
               Add
             </button>
           </div>
         </div>
+        {AddForm && (
+          <Form
+            method="POST"
+            className="flex flex-col items-center px-5 w-340px"
+          >
+            {/* Your form input fields */}
+            <input
+              type="text"
+              name="category_name"
+              placeholder="Category Name"
+            />
+            <input
+              type="date"
+              name="date"
+              placeholder="Date"
+            />
+            {/* Add more form fields as needed */}
+            <button
+              type="submit"
+              className="bg-main text-black h-14 text-2xl rounded-lg w-full mt-5"
+            >
+              Add
+            </button>
+            <button type="button" onClick={handleCancel}>
+              Cancel
+            </button>
+          </Form>
+        )}
         <div className="filtration flex justify-end mb-6 mr-5">
           <div className="flex gap-10 justify-between items-center">
             <div className="flex flex-col items-center">
@@ -112,33 +157,23 @@ const Category = () => {
           <table className="income-table w-full border border-main ">
             <thead>
               <tr className="income-heading bg-main text-black text-bold">
-                <th className="flex-1 py-2 px-4 text-center ">
-                  Category ID
-                </th>
-                <th className="flex-1 py-2 px-4 text-center ">
-                  Category
-                </th>
+                <th className="flex-1 py-2 px-4 text-center ">Category ID</th>
+                <th className="flex-1 py-2 px-4 text-center ">Category</th>
                 <th
                   className="flex-1 py-2 px-4 text-center "
                   onClick={handleSortToggle}
                 >
                   Date
                   {sortOrder === "asc" && (
-                  
-                      <img className="inline-flex m-1" src={AupArrow}></img>
-                    
+                    <img className="inline-flex m-1" src={AupArrow}></img>
                   )}
                   {sortOrder === "desc" && (
                     <img className="inline-flex m-1" src={AdownArrow}></img>
                   )}
                 </th>
-                <th className="flex-1 py-2 px-4 text-center ">
-                  Created At
-                </th>
+                <th className="flex-1 py-2 px-4 text-center ">Created At</th>
                 <th className="flex-1 py-2 px-4 text-center ">User</th>
-                <th className="flex-1 py-2 px-4 text-center ">
-                  Action
-                </th>
+                <th className="flex-1 py-2 px-4 text-center ">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -160,14 +195,17 @@ const Category = () => {
                     2023-01-01
                   </td>
                   <td className="flex-1 py-2 px-4 text-center text-white">
-                    {category.userId}
+                    {category.User.username}
                   </td>
                   <td className="flex-1 py-2 px-4 text-center">
                     <div className="flex justify-evenly">
                       <button className="py-2 px-4">
                         <img src={mEdit} alt="Edit" />
                       </button>
-                      <button className="py-2 px-4" onClick = {()=> handleDeleteCategory(category.id)}>
+                      <button
+                        className="py-2 px-4"
+                        onClick={() => handleDeleteCategory(category.id)}
+                      >
                         <img src={mDelete} alt="Delete" />
                       </button>
                     </div>

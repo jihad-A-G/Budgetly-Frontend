@@ -1,5 +1,6 @@
 import TransactionCard from "./transactionCard";
-import TransactionChart from "./transactionChart";
+import TransactionChart from "./transactionChart.jsx";
+// import { useLoaderData } from "react-router-dom";
 const Dashboard = () =>{
     return(
         <>
