@@ -46,41 +46,6 @@ const Category = () => {
     setEditForm(false);
   };
 
-  const handleSubmitEdit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const updatedCategory = {
-      category_name: formData.get("category_name"),
-      date: formData.get("category.date"),
-    };
-    try {
-      const response = await fetch(
-        `http://localhost:5000/api/category/${editingCategory.id}`,
-        {
-          method: "PATCH",
-          body: JSON.stringify(updatedCategory),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      if (response.ok) {
-        console.log("Category updated successfully");
-        setCategories((prevCategories) =>
-          prevCategories.map((category) =>
-            category.id === editingCategory.id ? updatedCategory : category
-          )
-        );
-        setEditForm(false);
-      } else {
-        console.error("Failed to update category");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
-
-  
   return (
     <div className="flex ">
       <div className="margin mt-20">
@@ -212,8 +177,26 @@ const Category = () => {
                       >
                         <img src={mEdit} alt="Edit" />
                       </button>
-                      {EditForm && (
-                        <Form method="PATCH" onSubmit={handleSubmitEdit}>
+
+                     
+
+                      <Form action={`destroy/${category.id}`} method="DELETE">
+                        <button type="submit" className="py-2 px-4">
+                          <img src={mDelete} alt="Delete" />
+                        </button>
+                      </Form>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {EditForm && (
+                        <Form
+                          method="PATCH"
+                          action={`edit/${editingCategory.id}`}
+                          onSubmit={() => setEditForm(false)}
+                        >
                           <div className="form--body">
                             <label htmlFor="Category Name">Category Name</label>
                             <input
@@ -226,7 +209,7 @@ const Category = () => {
                             <input
                               defaultValue={editingCategory.date}
                               type="date"
-                              name="category.date"
+                              name="date"
                               placeholder="category date"
                             />
                             <label htmlFor="text">User</label>
@@ -248,21 +231,6 @@ const Category = () => {
                           </button>
                         </Form>
                       )}
-                      
-                        <Form action={`destroy/${category.id}`} method="DELETE">
-                        <button
-                        type="submit"
-                        className="py-2 px-4"
-                      >
-                        <img src={mDelete} alt="Delete" />
-                      </button>
-                        </Form>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </div>

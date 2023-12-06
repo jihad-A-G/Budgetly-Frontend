@@ -26,11 +26,11 @@ const router = createBrowserRouter([
         path: "dashboard",
         index: true,
         element: <Test />,
-        // loader:async ()=>{
-        //   const data = await axios.get('http://localhost:5000/api/user/');
-        //   console.log(data);
-        //   return data.users;
-        // },
+        loader:async ()=>{
+          const data = await axios.get('http://localhost:5000/api/user/');
+          console.log(data);
+          return data.users;
+        },
       },
       {
         path: "/category",
@@ -66,21 +66,15 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "category/:id",
+        path: "category/edit/:id",
         element: <CategoryPage />,
-        loader: async ({ params }) => {
-          const response = await axios.get(
-            `http://localhost:5000/api/category/${params.id}`
-          );
-          return response.data;
-        },
         action: async ({ request, params }) => {
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           console.log(data);
           const response = await axios.patch(
             `http://localhost:5000/api/category/${params.id}`,
-            { ...data }
+            { ...data, userId: 3 }
           );
 
           if (!response) {
