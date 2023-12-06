@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import mCalendar from "../assets/Icons/Calendar.svg";
 import mEdit from "../assets/Icons/Edit-logo.svg";
 import mDelete from "../assets/Icons/Delete-logo.svg";
 import mAdd from "../assets/Icons/Add-logo.svg";
 import AupArrow from "../assets/Icons/AupArrow.svg";
 import AdownArrow from "../assets/Icons/AdownArrow.svg";
-import { Form } from "react-router-dom";
+import Aquit from "../assets/Icons/Aquit.svg";
+import { Form, useLoaderData } from "react-router-dom";
 
 const Category = () => {
   const [categories, setCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [AddForm, setAddForm] = useState(false);
+  const categoriesLoader = useLoaderData();
+  console.log(categoriesLoader);
   // const [formData, setFormData] = useState({
   //   category_name: "",
   //   date: "",
@@ -24,7 +27,8 @@ const Category = () => {
   };
 
   // Add a category
-  const handleAddCategory = async () => {
+  const handleAddCategory = async (event) => {
+    event.preventDefault();
     setAddForm(true);
   };
 
@@ -104,25 +108,6 @@ const Category = () => {
     }
   };
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/category");
-        const json = await response.json();
-
-        if (response.ok) {
-          setCategories(json);
-        } else {
-          console.error("Failed to fetch categories:", json);
-        }
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
-
-    fetchCategories();
-  }, []);
-
   return (
     <div className="flex ">
       <div className="margin mt-20">
@@ -141,29 +126,52 @@ const Category = () => {
           </div>
         </div>
         {AddForm && (
-          <Form
-            method="POST"
-            className="flex flex-col items-center px-5 w-340px"
-          >
-            {/* Your form input fields */}
-            <input
-              type="text"
-              name="category_name"
-              placeholder="Category Name"
-            />
-            <input type="date" name="date" placeholder="Date" />
-            {/* Add more form fields as needed */}
-            <button
-              type="submit"
-              className="bg-main text-black h-14 text-2xl rounded-lg w-full mt-5"
+          <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
+            <Form
+            onSubmit={() => setAddForm(false)}
+              method="POST"
+              className="relative justify-center z-10 bg-white inset-0 sm:my-8 sm:w-full sm:max-w-lg mx-auto overflow-hidden rounded-lg shadow-xl pt-4 pb-4"
             >
-              Add
-            </button>
-            <button type="button" onClick={handleCancel}>
-              Cancel
-            </button>
-          </Form>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  className="font-bold text-red hover:font-red-600"
+                  onClick={handleCancel}
+                >
+                  <img src={Aquit} alt="Cancel" />
+                </button>
+              </div>
+
+              <label className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                Category Name:
+              </label>
+              <input
+                type="text"
+                name="category_name"
+                placeholder="Category Name"
+                className="text-sm font-medium leading-6 text-gray-900 border border-2-main"
+              />
+              <div className="flex justify-center mt-4">
+                <input
+                  type="date"
+                  name="date"
+                  placeholder="Date"
+                  className="text-sm font-medium leading-6 text-gray-900"
+                />
+              </div>
+              <div className="flex flex-col items-center justify-center mt-5">
+                <button
+                  type="submit"
+                  className="flex bg-main text-black h-8 text-m rounded-lg border border-main justify-center items-center font-bold w-20 hover:bg-contentBackground hover:text-main hover:border-contentBackground"
+                  
+                >
+                  Add
+                </button>
+              </div>
+            </Form>
+          </div>
         )}
+
         <div className="filtration flex justify-end mb-6 mr-5">
           <div className="flex gap-10 justify-between items-center">
             <div className="flex flex-col gap- items-center">
@@ -204,7 +212,7 @@ const Category = () => {
               </tr>
             </thead>
             <tbody>
-              {categories.map((category) => (
+              {categoriesLoader.map((category) => (
                 <tr
                   className="income-content hover:animate-pulse hover:bg-main"
                   key={category._id}
@@ -222,7 +230,7 @@ const Category = () => {
                     2023-01-01
                   </td>
                   <td className="flex-1 py-2 px-4 text-center text-white">
-                  {category.User ? category.User.username : 'N/A'}
+                    {category.User ? category.User.username : "N/A"}
                   </td>
                   <td className="flex-1 py-2 px-4 text-center">
                     <div className="flex justify-evenly">

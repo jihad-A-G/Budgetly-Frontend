@@ -35,6 +35,15 @@ const router = createBrowserRouter([
       {
         path: "/category",
         element: <CategoryPage />,
+        loader: async () => {
+          try {
+            const response = await fetch("http://localhost:5000/api/category");    
+            console.log(response);
+            return response
+          } catch (error) {
+            console.error("Error fetching categories:", error);
+          }
+        },
         action: async ({ request }) => {
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
@@ -43,13 +52,14 @@ const router = createBrowserRouter([
               ...data,
               userId: 3,
             });
+            
             return redirect("/category");
             // if (response.status == 200) {
             //   localStorage.setItem("token", response.data.token);
             //   return redirect("/dashboard");
             // } else {
             //   return redirect("/login");
-            // }
+            // } 
           } catch (err) {
             console.log(err);
             return redirect("/category");
@@ -76,31 +86,6 @@ const router = createBrowserRouter([
           return redirect("/dashboard");
         }
       }  
-
-
-    /*
-     {
-          path:'News/:id/edit',
-          element:<AdminForm/>,
-          loader:async ({params}) =>{
-            const response = await axios.get(`https://tpll-31oj.onrender.com/api/article/${params.id}`);
-            return response.data;
-          },
-          action:async ({request,params}) =>{
-            const formData= await request.formData();
-            const data = Object.fromEntries(formData);
-            console.log(data);
-            const response= await axios.patch(`https://tpll-31oj.onrender.com/api/article/${params.id}`,{...data},{ headers: {
-              'Content-Type': 'multipart/form-data',
-            },});
-
-            if(!response){
-              throw response;
-            }
-            return redirect("admin/dashboard/News");
-          }
-        }  
-    */
     ],
   },
   {
