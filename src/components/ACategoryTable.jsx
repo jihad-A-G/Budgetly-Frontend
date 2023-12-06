@@ -9,7 +9,7 @@ import Aquit from "../assets/Icons/Aquit.svg";
 import { Form, useLoaderData } from "react-router-dom";
 
 const Category = () => {
-  const [categories, setCategories] = useState([]);
+  // const [categories, setCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [AddForm, setAddForm] = useState(false);
   const categoriesLoader = useLoaderData();
@@ -164,7 +164,9 @@ const Category = () => {
                     {category.date}
                   </td>
                   <td className="flex-1 py-2 px-4 text-center text-white">
-                    2023-01-01
+                    {category.createdAt
+                      ? new Date(category.createdAt).toLocaleDateString()
+                      : "Invalid Date"}
                   </td>
                   <td className="flex-1 py-2 px-4 text-center text-white">
                     {category.User ? category.User.username : "N/A"}
@@ -178,8 +180,6 @@ const Category = () => {
                         <img src={mEdit} alt="Edit" />
                       </button>
 
-                     
-
                       <Form action={`destroy/${category.id}`} method="DELETE">
                         <button type="submit" className="py-2 px-4">
                           <img src={mDelete} alt="Delete" />
@@ -192,45 +192,45 @@ const Category = () => {
             </tbody>
           </table>
           {EditForm && (
-                        <Form
-                          method="PATCH"
-                          action={`edit/${editingCategory.id}`}
-                          onSubmit={() => setEditForm(false)}
-                        >
-                          <div className="form--body">
-                            <label htmlFor="Category Name">Category Name</label>
-                            <input
-                              defaultValue={editingCategory.category_name}
-                              type="text"
-                              name="category_name"
-                              placeholder="category_name"
-                            />
-                            <label htmlFor="date">Date</label>
-                            <input
-                              defaultValue={editingCategory.date}
-                              type="date"
-                              name="date"
-                              placeholder="category date"
-                            />
-                            <label htmlFor="text">User</label>
-                            <input
-                              defaultValue={editingCategory.User.username}
-                              type="text"
-                              name="userId"
-                              placeholder="User ID"
-                            />
-                          </div>
-                          <button
-                            type="submit"
-                            className="bg-main text-black h-14 text-2xl rounded-lg w-full mt-5"
-                          >
-                            Submit
-                          </button>
-                          <button type="button" onClick={handleCancelEdit}>
-                            Cancel
-                          </button>
-                        </Form>
-                      )}
+            <Form
+              method="PATCH"
+              action={`edit/${editingCategory.id}`}
+              onSubmit={() => setEditForm(false)}
+            >
+              <div className="form--body">
+                <label htmlFor="Category Name">Category Name</label>
+                <input
+                  defaultValue={editingCategory.category_name}
+                  type="text"
+                  name="category_name"
+                  placeholder="category_name"
+                />
+                <label htmlFor="date">Date</label>
+                <input
+                  defaultValue={editingCategory.date}
+                  type="date"
+                  name="date"
+                  placeholder="category date"
+                />
+                <label htmlFor="text">User</label>
+                <input
+                  defaultValue={editingCategory.User.username}
+                  type="text"
+                  name="userId"
+                  placeholder="User ID"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-main text-black h-14 text-2xl rounded-lg w-full mt-5"
+              >
+                Submit
+              </button>
+              <button type="button" onClick={handleCancelEdit}>
+                Cancel
+              </button>
+            </Form>
+          )}
         </div>
       </div>
     </div>
