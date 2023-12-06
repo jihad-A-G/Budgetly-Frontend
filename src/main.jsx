@@ -37,9 +37,9 @@ const router = createBrowserRouter([
         element: <CategoryPage />,
         loader: async () => {
           try {
-            const response = await fetch("http://localhost:5000/api/category");    
+            const response = await fetch("http://localhost:5000/api/category");
             console.log(response);
-            return response
+            return response;
           } catch (error) {
             console.error("Error fetching categories:", error);
           }
@@ -52,14 +52,13 @@ const router = createBrowserRouter([
               ...data,
               userId: 3,
             });
-            
             return redirect("/category");
             // if (response.status == 200) {
             //   localStorage.setItem("token", response.data.token);
             //   return redirect("/dashboard");
             // } else {
             //   return redirect("/login");
-            // } 
+            // }
           } catch (err) {
             console.log(err);
             return redirect("/category");
@@ -67,25 +66,42 @@ const router = createBrowserRouter([
         },
       },
       {
-        path:'category/:id',
-        element:<CategoryPage/>,
-        loader:async ({params}) =>{
-          const response = await axios.get(`http://localhost:5000/api/category/${params.id}`);
+        path: "category/:id",
+        element: <CategoryPage />,
+        loader: async ({ params }) => {
+          const response = await axios.get(
+            `http://localhost:5000/api/category/${params.id}`
+          );
           return response.data;
-          
         },
-        action:async ({request,params}) =>{
-          const formData= await request.formData();
+        action: async ({ request, params }) => {
+          const formData = await request.formData();
           const data = Object.fromEntries(formData);
           console.log(data);
-          const response= await axios.patch(`http://localhost:5000/api/category/${params.id}`,{...data});
+          const response = await axios.patch(
+            `http://localhost:5000/api/category/${params.id}`,
+            { ...data }
+          );
 
-          if(!response){
+          if (!response) {
             throw response;
           }
-          return redirect("/dashboard");
-        }
-      }  
+          return redirect("/category");
+        },
+      },
+      {
+        path: "category/destroy/:id",
+        action: async ({ params }) => {
+          const response = await axios.delete(
+            `http://localhost:5000/api/category/${params.id}`
+          );
+
+          if (!response) {
+            throw response;
+          }
+          return redirect("/category");
+        },
+      },
     ],
   },
   {

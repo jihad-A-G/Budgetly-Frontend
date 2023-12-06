@@ -80,34 +80,7 @@ const Category = () => {
     }
   };
 
-  //Delete a category
-  const handleDeleteCategory = async (categoryId) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this category?"
-    );
-    if (confirmDelete) {
-      try {
-        const response = await fetch(
-          `http://localhost:5000/api/category/${categoryId}`,
-          {
-            method: "DELETE",
-          }
-        );
-
-        if (response.ok) {
-          console.log("Category deleted successfully");
-          setCategories((prevCategories) =>
-            prevCategories.filter((category) => category.id !== categoryId)
-          );
-        } else {
-          console.error("Failed to delete category");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  };
-
+  
   return (
     <div className="flex ">
       <div className="margin mt-20">
@@ -128,7 +101,7 @@ const Category = () => {
         {AddForm && (
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
             <Form
-            onSubmit={() => setAddForm(false)}
+              onSubmit={() => setAddForm(false)}
               method="POST"
               className="relative justify-center z-10 bg-white inset-0 sm:my-8 sm:w-full sm:max-w-lg mx-auto overflow-hidden rounded-lg shadow-xl pt-4 pb-4"
             >
@@ -163,7 +136,6 @@ const Category = () => {
                 <button
                   type="submit"
                   className="flex bg-main text-black h-8 text-m rounded-lg border border-main justify-center items-center font-bold w-20 hover:bg-contentBackground hover:text-main hover:border-contentBackground"
-                  
                 >
                   Add
                 </button>
@@ -276,12 +248,15 @@ const Category = () => {
                           </button>
                         </Form>
                       )}
-                      <button
+                      
+                        <Form action={`destroy/${category.id}`} method="DELETE">
+                        <button
+                        type="submit"
                         className="py-2 px-4"
-                        onClick={() => handleDeleteCategory(category.id)}
                       >
                         <img src={mDelete} alt="Delete" />
                       </button>
+                        </Form>
                     </div>
                   </td>
                 </tr>
