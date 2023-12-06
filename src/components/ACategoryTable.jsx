@@ -70,7 +70,7 @@ const Category = () => {
               method="POST"
               className="relative justify-center z-10 bg-white inset-0 sm:my-8 sm:w-full sm:max-w-lg mx-auto overflow-hidden rounded-lg shadow-xl pt-4 pb-4"
             >
-              <div className="flex justify-end">
+              <div className="flex justify-end mr-5">
                 <button
                   type="button"
                   className="font-bold text-red hover:font-red-600"
@@ -87,7 +87,7 @@ const Category = () => {
                 type="text"
                 name="category_name"
                 placeholder="Category Name"
-                className="text-sm font-medium leading-6 text-gray-900 border border-2-main"
+                className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg"
               />
               <div className="flex justify-center mt-4">
                 <input
@@ -125,9 +125,9 @@ const Category = () => {
             </div>
           </div>
         </div>
-        <div className="income-table-container rounded-10">
-          <table className="income-table w-full border border-main ">
-            <thead>
+        <div className="income-table-container rounded-10 max-h-[400px] overflow-y-auto " >
+          <table className="income-table w-full border border-main  ">
+            <thead className="sticky top-0">
               <tr className="income-heading bg-main text-black text-bold">
                 <th className="flex-1 py-2 px-4 text-center ">Category ID</th>
                 <th className="flex-1 py-2 px-4 text-center ">Category</th>
@@ -190,46 +190,74 @@ const Category = () => {
                 </tr>
               ))}
             </tbody>
+            
           </table>
           {EditForm && (
-            <Form
-              method="PATCH"
-              action={`edit/${editingCategory.id}`}
-              onSubmit={() => setEditForm(false)}
-            >
-              <div className="form--body">
-                <label htmlFor="Category Name">Category Name</label>
-                <input
-                  defaultValue={editingCategory.category_name}
-                  type="text"
-                  name="category_name"
-                  placeholder="category_name"
-                />
-                <label htmlFor="date">Date</label>
-                <input
-                  defaultValue={editingCategory.date}
-                  type="date"
-                  name="date"
-                  placeholder="category date"
-                />
-                <label htmlFor="text">User</label>
-                <input
-                  defaultValue={editingCategory.User.username}
-                  type="text"
-                  name="userId"
-                  placeholder="User ID"
-                />
-              </div>
-              <button
-                type="submit"
-                className="bg-main text-black h-14 text-2xl rounded-lg w-full mt-5"
+            <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
+              <Form
+                method="PATCH"
+                action={`edit/${editingCategory.id}`}
+                onSubmit={() => setEditForm(false)}
+                className="relative justify-center z-10 bg-white inset-0 sm:my-8 sm:w-full sm:max-w-lg mx-auto overflow-hidden rounded-lg shadow-xl pt-4 pb-4"
               >
-                Submit
-              </button>
-              <button type="button" onClick={handleCancelEdit}>
-                Cancel
-              </button>
-            </Form>
+                <div className="flex justify-end mr-5">
+                  <button
+                    type="button"
+                    className="font-bold text-red hover:font-red-600"
+                    onClick={handleCancelEdit}
+                  >
+                    <img src={Aquit} alt="Cancel" />
+                  </button>
+                </div>
+                <div className="form--body">
+                  <label
+                    htmlFor="Category Name"
+                    className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4 font-bold"
+                  >
+                    Category Name
+                  </label>
+                  <input
+                    defaultValue={editingCategory.category_name}
+                    type="text"
+                    name="category_name"
+                    placeholder="category_name"
+                    className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg pl-2"
+                  />
+                  <div className="flex justify-center mt-4">
+                    {/* <label htmlFor="date" className="px-4 font-bold">
+                      Date
+                    </label> */}
+                    <input
+                      defaultValue={editingCategory.date}
+                      type="date"
+                      name="date"
+                      placeholder="category date"
+                      className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg pl-2 bg-main"
+                    />
+                  </div>
+                  <div className="flex justify-center mt-4">
+                    <label htmlFor="text" className="px-4 font-bold">
+                      User
+                    </label>
+                    <input
+                      defaultValue={editingCategory.User.username}
+                      type="text"
+                      name="userId"
+                      placeholder="User ID"
+                      className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg pl-2"
+                    />
+                  </div>
+                </div>
+                <div className="flex flex-col items-center justify-center mt-5">
+                  <button
+                    type="submit"
+                    className="flex bg-main text-black h-8 text-m rounded-lg border border-main justify-center items-center font-bold w-20 hover:bg-contentBackground hover:text-main hover:border-contentBackground"
+                  >
+                    Submit
+                  </button>
+                </div>
+              </Form>
+            </div>
           )}
         </div>
       </div>
