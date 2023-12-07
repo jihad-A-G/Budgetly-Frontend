@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import mCategory from '../assets/Icons/Categories.svg';
 import mCalendar from '../assets/Icons/Calendar.svg';
 import mEdit from '../assets/Icons/Edit-logo.svg';
@@ -6,10 +7,10 @@ import mDelete from '../assets/Icons/Delete-logo.svg';
 import mAdd from '../assets/Icons/Add-logo.svg';
 import SideBar from './sideBar';
 import NavBar from './navBar';
-import AddForm from './addForm'
+import AddForm from './addForm';
+import EditForm from './editForm';
 
 const Income = () => {
-  const [data, setData] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [income, setIncome] = useState([]);
   const [sortOrder, setSortOrder] = useState('asc');
@@ -18,9 +19,18 @@ const Income = () => {
     setSortOrder(newSortOrder);
   };
 
-  const addData = (newData) => {
-    setData((prevData) => [...prevData, newData]);
-   };
+
+  const deleteIncome = async (id) => {
+    try {
+      const response = await axios.delete(`http://localhost:5000/api/income/${id}`);
+      console.log(response.data);
+    //   updateIncome(response.data);
+    } catch (error) {
+      alert('An error occurred check your console');
+      console.log(error);
+    }
+   }
+   
 
   useEffect(() => {
     const fetchIncome = async () => {
@@ -49,7 +59,8 @@ const Income = () => {
                 <img className="add-logo-img h-12 " src={mAdd} alt="Add" />
                 Add
               </button>
-              <AddForm open={isOpen} addData={addData} />
+              <AddForm open={isOpen} />
+              <EditForm open={isOpen}/>
             </div>
           </div>
           <div className="filtration flex justify-end mb-6 mr-5">
@@ -72,9 +83,10 @@ const Income = () => {
               </div>
             </div>
           </div>
-          <div className="income-table-container rounded-10">
+          <div className="income-table-container rounded-10 overflow-auto no-scrollbar h-[500px] ">
             <table className="income-table w-full ">
-              <thead>
+
+              <thead className="sticky top-0 bg-contentBackground">
                 <tr className="income-heading">
                   <th className="flex-1 py-2 px-4 text-center text-main">Description</th>
                   <th className="flex-1 py-2 px-4 text-center text-main">Amount</th>
@@ -88,6 +100,7 @@ const Income = () => {
                   <th className="flex-1 py-2 px-4 text-center text-main">Action</th>
                 </tr>
               </thead>
+
               <tbody>
                 <>
                   {income.map((incomes) => {
@@ -100,16 +113,15 @@ const Income = () => {
                         <td className="flex-1 py-2 px-4 text-center text-white">{incomes.Category.category_name}</td>
                         <td className="flex-1 py-2 px-4 text-center">
                           <div className="flex justify-evenly">
-                            <button className="py-2 px-4">
+                            <button onClick={()=>setIsOpen(true)} className="py-2 px-4">
                               <img src={mEdit} alt="Edit" />
                             </button>
-                            <button className="py-2 px-4">
+                            <button  onClick={()=>deleteIncome(incomes.id)} className="py-2 px-4">
                               <img src={mDelete} alt="Delete" />
                             </button>
                           </div>
                         </td>
                       </tr>
-
                     )
                   })}
                 </>

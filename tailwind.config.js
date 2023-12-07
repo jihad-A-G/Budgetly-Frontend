@@ -26,16 +26,15 @@ export default {
         1: "1px",
       },
       fontFamily: {
-        inter: ["Inter", "sans-serif"],
-      },
-      fontFamily: {
         inter: ['Inter', 'sans-serif'],
       },
       borderRadius: {
         '10': '10px',
       },
+
     },
   },
-  plugins: ['tailwindcss-gap'],
-}
 
+  plugins: ['tailwindcss-gap'],
+ }
+ 
