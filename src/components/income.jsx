@@ -99,7 +99,6 @@ const Income = () => {
                   <th className="flex-1 py-2 px-4 text-center text-main">Action</th>
                 </tr>
               </thead>
-
               <tbody>
                 <>
                   {income.map((incomes) => {
