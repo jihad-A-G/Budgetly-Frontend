@@ -24,7 +24,6 @@ const Income = () => {
     try {
       const response = await axios.delete(`http://localhost:5000/api/income/${id}`);
       console.log(response.data);
-    //   updateIncome(response.data);
     } catch (error) {
       alert('An error occurred check your console');
       console.log(error);
