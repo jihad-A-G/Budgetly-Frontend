@@ -1,15 +1,22 @@
 import {Line} from 'react-chartjs-2';
 import 'chart.js/auto';
-const TransactionChart = () =>{
-    const data={labels: ['1','2','3','4','5','6',],
+const TransactionChart = ({balance,incomes,expenses}) =>{
+  const incomeData = incomes.map(e=>{
+    return e.income_amount;
+  })
+  const expenseData = expenses.map(e=>{
+    return e.expense_amount;
+  })
+  const xAxisData= [...incomes.map(e=>new Date(e.date).getDay()),...expenses.map(e=>new Date(e.date).getDay())].sort();
+    const data={labels: xAxisData,
         datasets: [{
-          data: [65, 59, 80, 81, 56, 55, 40],
+          data: incomeData,
           fill: true ,
           borderColor: '#2563eb',
           tension: 0.1
         },
         {
-        data: [5, 53, 82, 81, 59, 53, 80],
+        data:expenseData,
         fill: true ,
         borderColor: '#dc2626',
         tension: 0.1
@@ -55,7 +62,7 @@ const TransactionChart = () =>{
         <div className="flex items-center justify-between mb-9">
             <div>
               <p className='text-sm font-normal'>Balance</p>
-              <h1 className='text-lg font-semibold'>$12,039</h1>
+              <h1 className='text-lg font-semibold'>{`$${balance}`}</h1>
             </div>
             <div className="text-xs flex items-center gap-[10px]">
             <div className="flex items-center justify-center w-10 h-6 rounded-full border-1 border-[#E4E4E4]"><span>1h</span></div>

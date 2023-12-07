@@ -2,16 +2,17 @@ import { Link } from "react-router-dom";
 import budgetlyLogo from "../assets/budgetlyLogo.svg";
 import { useState } from "react";
 import AddForm from "./addForm.jsx";
-
+import { useSelector } from "react-redux";
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const user = useSelector(state=>state.user?.userCredentials);
   return (
     <aside
       className="bg-[#1b2028] rounded-10 h-full"
       aria-label="Sidebar"
     >
       <div className="flex px-4  pt-8 ">
-        <Link className="flex " to="#">
+        <Link className="flex " to={'dashboard'}>
           <img
             src={budgetlyLogo}
             alt="Budgetly Logo"
@@ -27,7 +28,7 @@ const SideBar = () => {
         <ul className="flex flex-col space-y-3 justify-center">
           <li>
             <Link
-              to="/login"
+              to="dashboard"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
             >
               <svg
@@ -96,7 +97,7 @@ const SideBar = () => {
             </Link>
           </li>
 
-          <li>
+          {(user.role ==='acountant')?<li>
             <Link
               to="/category"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
@@ -117,7 +118,7 @@ const SideBar = () => {
                 Categories
               </span>
             </Link>
-          </li>
+          </li>:null}
 
           <li>
             <Link
@@ -148,7 +149,7 @@ const SideBar = () => {
             </Link>
           </li>
 
-          <li>
+       {(user.role==='manager')? <li>
             <Link
               to="/login"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
@@ -175,9 +176,9 @@ const SideBar = () => {
                 Reports
               </span>
             </Link>
-          </li>
+          </li>:null}
 
-          <li>
+          {(user.role==='admin')?<li>
             <Link
               to="/login"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
@@ -198,7 +199,7 @@ const SideBar = () => {
                 User Control
               </span>
             </Link>
-          </li>
+          </li>:null}
         </ul>
 
 
@@ -210,9 +211,10 @@ const SideBar = () => {
               alt="profile image"
             />
             <h5 className="mb-1 text-xl font-medium text-white">
-              Christiano Ronaldo
+              {user.username}
+
             </h5>
-            <span className="text-sm text-white ">Admin</span>
+            <span className="text-sm text-white ">{user.role}</span>
             <div className="flex mt-4 ml-2 md:mt-6">
               <div
                 className="inline-flex items-center px-6 py-3 text-m font-medium text-center text-main rounded-xl hover:bg-main group hover:text-white">
