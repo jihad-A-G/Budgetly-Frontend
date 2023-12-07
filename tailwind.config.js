@@ -35,8 +35,10 @@ export default {
       borderRadius: {
         '10': '10px',
       },
+
     },
   },
-  plugins: ['tailwindcss-gap'],
-}
 
+  plugins: ['tailwindcss-gap'],
+ }
+ 

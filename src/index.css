@@ -36,3 +36,7 @@ html,body{
     font-weight: bold;
     letter-spacing: 0.4px;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+   }
