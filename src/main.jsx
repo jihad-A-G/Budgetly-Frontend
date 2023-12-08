@@ -33,11 +33,13 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/category",
+        path: "/category/:sortOrder?",
         element: <CategoryPage />,
         loader: async () => {
           try {
-            const response = await fetch("http://localhost:5000/api/category");
+            const sortOrder = window.location.pathname.split("/")[2] || "desc"; // Get sortOrder from the path
+            const response = await fetch(`http://localhost:5000/api/category?order=${sortOrder}`);
+
             console.log(response);
             return response;
           } catch (error) {
@@ -96,6 +98,7 @@ const router = createBrowserRouter([
           return redirect("/category");
         },
       },
+
     ],
   },
   {

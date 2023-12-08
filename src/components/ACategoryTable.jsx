@@ -50,9 +50,9 @@ const Category = () => {
     <div className="flex ">
       <div className="margin mt-20">
         <div className="headings-title-icons flex justify-between items-center h-14 mb-10">
-          <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5">
+          {/* <h1 className="text-white text-4xl tracking-normal hover:tracking-wider ml-5">
             Categories
-          </h1>
+          </h1> */}
           <div className="flex flex-col items-center mr-5">
             <button
               className="text-white text-sm hover:text-blue-500"
@@ -111,7 +111,7 @@ const Category = () => {
 
         <div className="filtration flex justify-end mb-6 mr-5">
           <div className="flex gap-10 justify-between items-center">
-            <div className="flex flex-col gap- items-center">
+            <div className="flex flex-col items-center">
               <button className="text-white text-sm hover:text-blue-500 flex-col">
                 <div className="flex flex-col items-center">
                   <img
