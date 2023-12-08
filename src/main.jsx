@@ -26,20 +26,18 @@ const router = createBrowserRouter([
         path: "dashboard",
         index: true,
         element: <Test />,
-        loader:async ()=>{
-          const data = await axios.get('http://localhost:5000/api/user/');
+        loader: async () => {
+          const data = await axios.get("http://localhost:5000/api/user/");
           console.log(data);
           return data.users;
         },
       },
       {
-        path: "/category/:sortOrder?",
+        path: "/category",
         element: <CategoryPage />,
         loader: async () => {
           try {
-            const sortOrder = window.location.pathname.split("/")[2] || "desc"; // Get sortOrder from the path
-            const response = await fetch(`http://localhost:5000/api/category?order=${sortOrder}`);
-
+            const response = await fetch("http://localhost:5000/api/category");
             console.log(response);
             return response;
           } catch (error) {
@@ -50,17 +48,16 @@ const router = createBrowserRouter([
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           try {
-            await axios.post("http://localhost:5000/api/category", {
+            const response = await axios.post("http://localhost:5000/api/category", {
               ...data,
               userId: 3,
             });
-            return redirect("/category");
-            // if (response.status == 200) {
-            //   localStorage.setItem("token", response.data.token);
-            //   return redirect("/dashboard");
-            // } else {
-            //   return redirect("/login");
-            // }
+            if (response.status == 200) {
+              localStorage.setItem("token", response.data.token);
+              return redirect("/dashboard");
+            } else {
+              return redirect("/login");
+            }
           } catch (err) {
             console.log(err);
             return redirect("/category");
@@ -98,7 +95,6 @@ const router = createBrowserRouter([
           return redirect("/category");
         },
       },
-
     ],
   },
   {
@@ -132,7 +128,6 @@ const router = createBrowserRouter([
     path: "/signup",
     element: <Signup />,
   },
-  
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
