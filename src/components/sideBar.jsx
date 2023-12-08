@@ -2,19 +2,23 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import budgetlyLogo from "../assets/budgetlyLogo.svg";
 import AProfile from "../components/AProfile";
-
+import { useSelector } from "react-redux";
 const SideBar = () => {
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const user = useSelector(state=>state.user?.userCredentials);
 
   // Function to toggle editing profile state
   const handleEditProfileClick = () => {
     setIsEditingProfile(!isEditingProfile);
   };
   return (
-    <aside className="bg-[#1b2028]" aria-label="Sidebar">
-      <div className="flex items justify-center pt-8 pb-5">
-        <Link className="flex" to="#">
+    <aside
+      className="bg-[#1b2028] rounded-10 h-full"
+      aria-label="Sidebar"
+    >
+      <div className="flex px-4  pt-8 ">
+        <Link className="flex " to={'dashboard'}>
           <img
             src={budgetlyLogo}
             alt="Budgetly Logo"
@@ -30,7 +34,7 @@ const SideBar = () => {
         <ul className="flex flex-col space-y-3 justify-center">
           <li>
             <Link
-              to="/login"
+              to="dashboard"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
             >
               <svg
@@ -99,7 +103,7 @@ const SideBar = () => {
             </Link>
           </li>
 
-          <li>
+          {(user.role ==='acountant')?<li>
             <Link
               to="/category"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
@@ -120,7 +124,7 @@ const SideBar = () => {
                 Categories
               </span>
             </Link>
-          </li>
+          </li>:null}
 
           <li>
             <Link
@@ -151,7 +155,7 @@ const SideBar = () => {
             </Link>
           </li>
 
-          <li>
+       {(user.role==='manager')? <li>
             <Link
               to="/login"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
@@ -178,9 +182,9 @@ const SideBar = () => {
                 Reports
               </span>
             </Link>
-          </li>
+          </li>:null}
 
-          <li>
+          {(user.role==='admin')?<li>
             <Link
               to="/login"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
@@ -201,7 +205,7 @@ const SideBar = () => {
                 User Control
               </span>
             </Link>
-          </li>
+          </li>:null}
         </ul>
 
         <div className="w-full max-w-sm bg-[#31353f] rounded-lg shadow mt-20 ">
@@ -212,9 +216,10 @@ const SideBar = () => {
               alt="profile image"
             />
             <h5 className="mb-1 text-xl font-medium text-white">
-              Christiano Ronaldo
+              {user.username}
+
             </h5>
-            <span className="text-sm text-white ">Admin</span>
+            <span className="text-sm text-white ">{user.role}</span>
             <div className="flex mt-4 ml-2 md:mt-6">
               {/* <Link
                 to="#"

@@ -1,4 +1,3 @@
-//test2
 import React from "react";
 import ReactDOM from "react-dom/client";
 import axios from "axios";
@@ -12,11 +11,14 @@ import Login from "./Auth/login.jsx";
 import Signup from "./Auth/signup.jsx";
 import CategoryPage from "../categoryPage.jsx";
 import App from "./App.jsx";
-// import Dashboard from './dashboard/dashboard.jsx'
-import Test from "./test.jsx";
-// import TransactionCard from './dashboard/transactionCard.jsx'
-// import TransactionChart from './dashboard/transactionChart.jsx'
+// import Test from './test.jsx'
 import Income from "./components/income.jsx";
+import Dashboard from "./dashboard/dashboard.jsx";
+
+import store, { setUserCredentials, persistor } from "./redux.js";
+import { PersistGate } from "redux-persist/integration/react";
+import { Provider } from "react-redux";
+import socket from "../socket-io.js";
 
 const router = createBrowserRouter([
   {
@@ -26,11 +28,26 @@ const router = createBrowserRouter([
       {
         path: "dashboard",
         index: true,
-        element: <Test />,
+        element: <Dashboard />,
         loader: async () => {
-          const data = await axios.get("http://localhost:5000/api/user/");
-          console.log(data);
-          return data.users;
+          try {
+            const data = await axios.get(
+              "http://localhost:5000/api/user/dashboard",
+              {
+                headers: {
+                  authorization: `Bearer: ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+            if (data.status === 403) {
+              return redirect("/login");
+            }
+
+            return data.data;
+          } catch (err) {
+            console.log(err);
+            return redirect("/login");
+          }
         },
       },
       {
@@ -49,10 +66,13 @@ const router = createBrowserRouter([
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           try {
-            const response = await axios.post("http://localhost:5000/api/category", {
-              ...data,
-              userId: 3,
-            });
+            const response = await axios.post(
+              "http://localhost:5000/api/category",
+              {
+                ...data,
+                userId: 3,
+              }
+            );
             if (response.status == 200) {
               localStorage.setItem("token", response.data.token);
               return redirect("/dashboard");
@@ -102,23 +122,26 @@ const router = createBrowserRouter([
     path: "/incomes",
     element: <Income />,
   },
+
   {
     path: "/login",
     element: <Login />,
     action: async ({ request }) => {
       const formData = await request.formData();
       const data = Object.fromEntries(formData);
+      let response;
       try {
-        const response = await axios.post(
-          "http://localhost:5000/api/auth/login",
-          { ...data }
-        );
+        response = await axios.post("http://localhost:5000/api/auth/login", {
+          ...data,
+        });
         if (response.status == 200) {
+          socket.emit("joinAdminRoom", response.data.user);
+
           localStorage.setItem("token", response.data.token);
+          store.dispatch(setUserCredentials(response.data.user));
           return redirect("/dashboard");
-        } else {
-          return redirect("/login");
         }
+        return redirect("/login");
       } catch (err) {
         console.log(err);
         return redirect("/login");
@@ -128,11 +151,25 @@ const router = createBrowserRouter([
   {
     path: "/signup",
     element: <Signup />,
+    action: async ({ request }) => {
+      const formData = await request.formData();
+      const data = Object.fromEntries(formData);
+
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        { ...data }
+      );
+      return redirect("/login");
+    },
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <RouterProvider router={router} />
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );

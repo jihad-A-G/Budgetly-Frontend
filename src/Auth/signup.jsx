@@ -2,12 +2,12 @@ import signupLogo from '../assets/signupLogo.svg';
 import usernameLogo from '../assets/usernameLogo.svg';
 import passwordLogo from '../assets/passwordLogo.svg';
 import emailLogo from '../assets/emailLogo.svg'
-import { Link } from 'react-router-dom';
+import { Link,Form } from 'react-router-dom';
 const Signup = () =>{
     return(
         <>
         <section className="w-screen h-screen bg-authBackgroundImg bg-no-repeat bg-cover bg-authBackground flex justify-center items-center">
-            <form action="" className="flex flex-col items-center px-5 w-340px ">
+            <Form method='POST' className="flex flex-col items-center px-5 w-340px ">
                 <img className='mb-16' src={signupLogo} alt="Login" />
                 <div className="w-full h-11 rounded-lg flex items-center px-3 gap-5 border-1 border-main mb-5">
                     <img src={usernameLogo} alt="" />
@@ -24,7 +24,7 @@ const Signup = () =>{
                 <button className='bg-main text-black h-14 text-2xl rounded-lg w-full mt-5' type='submit'>Signup</button>
                 <p className='text-sm text-white mt-3'>Already have an account? <Link className='text-main' to={'/login'}>Sign in</Link></p>
                 
-            </form>
+            </Form>
         </section>
         </>
     );

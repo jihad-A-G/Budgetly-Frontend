@@ -1,13 +1,16 @@
 import { useState } from "react";
-
+import { useLocation } from "react-router-dom";
+import socket from "../../socket-io";
 const NavBar = () => {
+  const location = useLocation();
+  const path = location.pathname;
   const [dropdownOpen, setDropdownOpen] = useState(false);
   return (
     <>
       <nav className="bg-[#31353f] flex justify-between">
         <div className="flex items-center p-10">
           <p className="text-white text-2xl font-semibold font-inter">
-            Dashboard
+           {(path.includes('dashboard'))?'Dashboard':(path.includes('category'))?'Categories':null} 
           </p>
         </div>
 

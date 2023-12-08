@@ -9,10 +9,9 @@ const App = () =>{
         <SideBar/>
         
         <section className="w-full h-full flex flex-col items-center">
-<NavBar/>
-<Outlet/>
-
-</section>
+        <NavBar/>
+        <Outlet/>
+        </section>
         </section>
         
         </>
