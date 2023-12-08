@@ -42,6 +42,38 @@ const router = createBrowserRouter([
         },
       },
       {
+        path: "/category",
+        element: <CategoryPage />,
+        loader: async () => {
+          try {
+            const response = await fetch("http://localhost:5000/api/category");
+            console.log(response);
+            return response;
+          } catch (error) {
+            console.error("Error fetching categories:", error);
+          }
+        },
+        action: async ({ request }) => {
+          const formData = await request.formData();
+          const data = Object.fromEntries(formData);
+          try {
+            const response = await axios.post("http://localhost:5000/api/category", {
+              ...data,
+              userId: 3,
+            });
+            if (response.status == 200) {
+              localStorage.setItem("token", response.data.token);
+              return redirect("/dashboard");
+            } else {
+              return redirect("/login");
+            }
+          } catch (err) {
+            console.log(err);
+            return redirect("/category");
+          }
+        },
+      },
+      {
         path: "category/edit/:id",
         element: <CategoryPage />,
         action: async ({ request, params }) => {
