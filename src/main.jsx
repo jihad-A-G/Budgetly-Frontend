@@ -15,6 +15,7 @@ import store,{setUserCredentials,persistor} from './redux.js';
 import { PersistGate } from 'redux-persist/integration/react'; 
 import { Provider } from 'react-redux';
 import socket from '../socket-io.js'
+import Expense from './components/expense.jsx'
 
 const router = createBrowserRouter([
   {
@@ -75,8 +76,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/incomes",
+    path: "/income",
     element: <Income />,
+  },
+  {
+    path: "/expense",
+    element: <Expense />,
   },
 
   {

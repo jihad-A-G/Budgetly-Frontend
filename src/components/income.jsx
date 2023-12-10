@@ -12,6 +12,7 @@ import EditForm from './editForm';
 
 const Income = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isEditOpen, setIsEditOpen] = useState(false)
   const [income, setIncome] = useState([]);
   const [sortOrder, setSortOrder] = useState('asc');
   const handleSortToggle = () => {
@@ -22,18 +23,32 @@ const Income = () => {
 
   const deleteIncome = async (id) => {
     try {
-      const response = await axios.delete(`http://localhost:5000/api/income/${id}`);
+      const response = await axios.delete(`http://localhost:5000/api/income/${id}`, {
+        headers: {
+          'authorization': `Bearer: ${localStorage.getItem('token')}`
+        }
+      });
       console.log(response.data);
-    } catch (error) {
+      if (response.status === 403) {
+        return redirect('/login');
+      }
+    }
+
+    catch (error) {
       alert('An error occurred check your console');
       console.log(error);
+      return redirect('/login');
     }
-   }
-   
+  }
+
 
   useEffect(() => {
     const fetchIncome = async () => {
-      const response = await fetch("http://localhost:5000/api/income");
+      const response = await fetch("http://localhost:5000/api/income", {
+        headers: {
+          'authorization': `Bearer: ${localStorage.getItem('token')}`
+        }
+      });
       const json = await response.json();
       console.log(json);
       if (response.ok) {
@@ -58,8 +73,8 @@ const Income = () => {
                 <img className="add-logo-img h-12 " src={mAdd} alt="Add" />
                 Add
               </button>
-              <AddForm open={isOpen} />
-              <EditForm open={isOpen}/>
+              {isOpen && <AddForm setIsOpen={setIsOpen} />}
+              {isEditOpen && <EditForm setIsEditOpen={setIsEditOpen} />}
             </div>
           </div>
           <div className="filtration flex justify-end mb-6 mr-5">
@@ -111,10 +126,10 @@ const Income = () => {
                         <td className="flex-1 py-2 px-4 text-center text-white">{incomes.Category.category_name}</td>
                         <td className="flex-1 py-2 px-4 text-center">
                           <div className="flex justify-evenly">
-                            <button onClick={()=>setIsOpen(true)} className="py-2 px-4">
+                            <button onClick={() => setIsEditOpen(true)} className="py-2 px-4">
                               <img src={mEdit} alt="Edit" />
                             </button>
-                            <button  onClick={()=>deleteIncome(incomes.id)} className="py-2 px-4">
+                            <button onClick={() => deleteIncome(incomes.id)} className="py-2 px-4">
                               <img src={mDelete} alt="Delete" />
                             </button>
                           </div>
