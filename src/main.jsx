@@ -10,6 +10,7 @@ import App from './App.jsx'
 // import Test from './test.jsx'
 import Income from './components/income.jsx'
 import Dashboard from './dashboard/dashboard.jsx'
+import Expense from './components/expense.jsx'
 
 import store,{setUserCredentials,persistor} from './redux.js';
 import { PersistGate } from 'redux-persist/integration/react'; 
@@ -108,8 +109,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/incomes",
+    path: "/income",
     element: <Income />,
+  },
+  {
+    path: "/expense",
+    element: <Expense />,
   },
 
   {
