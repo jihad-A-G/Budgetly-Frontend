@@ -22,15 +22,15 @@ const editForm = ({ setIsEditOpen, isExpense = false }) => {
             categoryId: formData.category,
             id: formData.userId
         };
-        
+
         console.log("data to edit", data)
         try {
-            const response = await axios.put(`http://localhost:5000/api/${isExpense?"expense":"income"}/${formData.userId}`, data, {
+            const response = await axios.put(`http://localhost:5000/api/${isExpense ? "expense" : "income"}/${formData.userId}`, data, {
                 headers: {
                     'authorization': `Bearer: ${localStorage.getItem('token')}`
                 }
             })
-            console.log('response is :',response.data);
+            console.log('response is :', response.data);
             setIsEditOpen(false);
         } catch (error) {
             console.log('an error occurred:', error);
