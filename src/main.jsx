@@ -14,7 +14,8 @@ import Dashboard from './dashboard/dashboard.jsx'
 import store,{setUserCredentials,persistor} from './redux.js';
 import { PersistGate } from 'redux-persist/integration/react'; 
 import { Provider } from 'react-redux';
-import socket from '../socket-io.js'
+import socket from '../socket-io.js';
+import { toast } from 'react-toastify';
 
 const router = createBrowserRouter([
   {
@@ -121,17 +122,31 @@ const router = createBrowserRouter([
       try{
         response = await axios.post('http://localhost:5000/api/auth/login',{...data});
         if(response.status == 200){
+          socket.emit("joinAdminRoom", response.data.user);
 
-            socket.emit('joinAdminRoom',response.data.user);
-
-          localStorage.setItem('token',response.data.token);
-          store.dispatch(setUserCredentials(response.data.user))
-          return redirect ('/dashboard')
+          localStorage.setItem("token", response.data.token);
+          
+          store.dispatch(setUserCredentials(response.data.user));
+          return redirect("/dashboard");
         }
           return redirect('/login');
                 
 
-      }catch(err){console.log(err);
+      }catch(err){
+        console.log(err);
+      
+     
+          toast.error("Invalid username or password!", {
+            position: "top-left",
+            autoClose: 4000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+          });
+       
+        
           return redirect('/login')}
     }
   },
@@ -144,6 +159,26 @@ const router = createBrowserRouter([
 
       const response = await axios.post('http://localhost:5000/api/auth/signup',{...data});
       return redirect('/login');
+    }
+  },
+  {
+    path:'/user/edit/:id',
+    action:async ({params}) =>{
+      const userId= params.id;
+      const response = await axios.put(`http://localhost:5000/api/user/${userId}`,{authorized:true}
+      ,{headers:{
+        'authorization':`Bearer: ${localStorage.getItem('token')}`
+      }});
+      return redirect('/dashboard');
+    }
+  },
+ { path:'/user/delete/:id',
+    action:async ({params}) =>{
+      const userId= params.id;
+      const response = await axios.delete(`http://localhost:5000/api/user/${userId}`,{headers:{
+        'authorization':`Bearer: ${localStorage.getItem('token')}`
+      }});
+      return redirect('/dashboard');
     }
   },
   

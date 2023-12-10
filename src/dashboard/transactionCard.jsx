@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const TransactionCard = ({name,amount,logo}) =>{
     return (
         <>
-         <div className="w-[258px] h-[178px] p-5 flex flex-col rounded-lg bg-[#1b2028] text-white font-semibold leading-3">
+         <div className="w-[258px] h-[178px] p-5 flex flex-col flex-shrink rounded-lg bg-[#1b2028] text-white font-semibold leading-3">
             <div className="flex items-center gap-5 mb-5">
                 <div className="rounded-lg w-11 h-11 bg-dashboardLogoBackground flex items-center justify-center"><img src={logo} alt="incomes"/></div>
                 
