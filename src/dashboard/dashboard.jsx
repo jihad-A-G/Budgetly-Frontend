@@ -5,12 +5,9 @@ import JincomeLogo from '../assets/JincomeLogo.svg';
 import expenseLogo from '../assets/expenseLogo.svg'; 
 import balanceLogo from '../assets/balanceLogo.svg';
 import socket from "../../socket-io.js";
+import ExpensePieChart from "./expensePieChart.jsx";
 const Dashboard = () =>{
     const data = useLoaderData();
-
-socket.on('confirmUser',(data)=>{
-    console.log(data);
-   })
     return(
         <>
 
@@ -18,6 +15,7 @@ socket.on('confirmUser',(data)=>{
     <TransactionCard name={'Incomes'} amount={data.income_amount} logo={JincomeLogo}/>
     <TransactionCard name={'Expenses'} amount={data.expense_amount} logo={expenseLogo}/>
     <TransactionCard name={'Balance'} amount={data.balance} logo={balanceLogo}/>
+    <ExpensePieChart/>
     <TransactionChart balance={data.balance} incomes={data.incomes} expenses={data.expenses}/>
     
 </main>

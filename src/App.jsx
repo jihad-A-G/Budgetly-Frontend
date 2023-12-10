@@ -1,20 +1,33 @@
 import { Outlet } from "react-router";
 import NavBar from "./components/navBar";
 import SideBar from "./components/sideBar";
-const App = () =>{
+import { ToastContainer,toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+const App = () =>{ 
     return (
-
-        <>
+      <>
+        <ToastContainer
+          position="top-left"
+          autoClose={4000}
+          limit={4}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <section className="flex items-start justify-start w-screen h-screen">
-        <SideBar/>
-        
-        <section className="w-full h-full flex flex-col items-center">
-        <NavBar/>
-        <Outlet/>
+          <SideBar />
+
+          <section className="w-full h-full flex flex-col items-center">
+            <NavBar />
+            <Outlet />
+          </section>
         </section>
-        </section>
-        
-        </>
+      </>
     );
 }
 
