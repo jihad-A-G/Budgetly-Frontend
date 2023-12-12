@@ -12,17 +12,21 @@ import Signup from "./Auth/signup.jsx";
 import CategoryPage from "../categoryPage.jsx";
 import App from "./App.jsx";
 // import Test from './test.jsx'
-import Income from "./components/income.jsx";
-import Dashboard from "./dashboard/dashboard.jsx";
+import Income from './components/income.jsx'
+import Dashboard from './dashboard/dashboard.jsx'
+import Expense from './components/expense.jsx'
 
-import store, { setUserCredentials, persistor } from "./redux.js";
-import { PersistGate } from "redux-persist/integration/react";
-import { Provider } from "react-redux";
-import socket from "../socket-io.js";
+import store,{setUserCredentials,persistor} from './redux.js';
+import { PersistGate } from 'redux-persist/integration/react'; 
+import { Provider } from 'react-redux';
+import socket from '../socket-io.js';
+import { toast } from 'react-toastify';
+import Expense from './components/expense.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
+    redirect:'dashboard',
     element: <App />,
     children: [
       {
@@ -51,6 +55,15 @@ const router = createBrowserRouter([
         },
       },
       {
+        path:'incomes',
+        element:<Income/>
+      },
+      {
+        path:'expenses',
+        element:<Expense/>
+      },
+      
+      {
         path: "category",
         element: <CategoryPage />,
         loader: async () => {
@@ -73,25 +86,18 @@ const router = createBrowserRouter([
             const response = await axios.post(
               "http://localhost:5000/api/category",
               {
-                headers: {
-                  authorization: `Bearer: ${localStorage.getItem("token")}`,
-                },
-              },
-              {
                 ...data,
-                userId: 6,
               }
             );
-            console.log(userId);
             if (response.status == 200) {
-              localStorage.setItem("token", response.data.token);
-              return redirect("/dashboard");
+              return redirect("/category");
             } else {
               return redirect("/login");
             }
           } catch (err) {
             console.log(err);
-            return redirect("/category");
+            return redirect("/login");
+            category;
           }
         },
       },
@@ -139,8 +145,12 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/incomes",
+    path: "/income",
     element: <Income />,
+  },
+  {
+    path: "/expense",
+    element: <Expense />,
   },
 
   {
@@ -158,12 +168,24 @@ const router = createBrowserRouter([
           socket.emit("joinAdminRoom", response.data.user);
 
           localStorage.setItem("token", response.data.token);
+
           store.dispatch(setUserCredentials(response.data.user));
           return redirect("/dashboard");
         }
         return redirect("/login");
       } catch (err) {
         console.log(err);
+
+        toast.error("Invalid username or password!", {
+          position: "top-left",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+
         return redirect("/login");
       }
     },
@@ -180,6 +202,37 @@ const router = createBrowserRouter([
         { ...data }
       );
       return redirect("/login");
+    },
+  },
+  {
+    path: "/user/edit/:id",
+    action: async ({ params }) => {
+      const userId = params.id;
+      const response = await axios.put(
+        `http://localhost:5000/api/user/${userId}`,
+        { authorized: true },
+        {
+          headers: {
+            authorization: `Bearer: ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return redirect("/dashboard");
+    },
+  },
+  {
+    path: "/user/delete/:id",
+    action: async ({ params }) => {
+      const userId = params.id;
+      const response = await axios.delete(
+        `http://localhost:5000/api/user/${userId}`,
+        {
+          headers: {
+            authorization: `Bearer: ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return redirect("/dashboard");
     },
   },
 ]);

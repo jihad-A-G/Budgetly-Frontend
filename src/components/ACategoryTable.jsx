@@ -7,12 +7,14 @@ import AupArrow from "../assets/Icons/AupArrow.svg";
 import AdownArrow from "../assets/Icons/AdownArrow.svg";
 import Aquit from "../assets/Icons/Aquit.svg";
 import { Form, useLoaderData } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Category = () => {
   // const [categories, setCategories] = useState([]);
   const [sortOrder, setSortOrder] = useState("asc");
   const [AddForm, setAddForm] = useState(false);
   const categoriesLoader = useLoaderData();
+  const user = useSelector((state) => state.user?.userCredentials);
   console.log(categoriesLoader);
   // const [formData, setFormData] = useState({
   //   category_name: "",
@@ -108,6 +110,7 @@ const Category = () => {
                   className="text-sm font-medium leading-6 text-gray-900"
                 />
               </div>
+              <input type="hidden" value={user.id} name="userId" />
               <div className="flex flex-col items-center justify-center mt-5">
                 <button
                   type="submit"
@@ -136,7 +139,7 @@ const Category = () => {
             </div>
           </div>
         </div>
-        <div className="income-table-container rounded-10 max-h-[400px] overflow-y-auto " >
+        <div className="income-table-container rounded-10 max-h-[400px] overflow-y-auto ">
           <table className="income-table w-full border border-main  ">
             <thead className="sticky top-0">
               <tr className="income-heading bg-main text-black text-bold">
@@ -201,7 +204,6 @@ const Category = () => {
                 </tr>
               ))}
             </tbody>
-            
           </table>
           {EditForm && (
             <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
@@ -234,6 +236,8 @@ const Category = () => {
                     placeholder="category_name"
                     className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg pl-2"
                   />
+                  <input type="hidden" value={user.id} name="userId" />
+
                   <div className="flex justify-center mt-4">
                     {/* <label htmlFor="date" className="px-4 font-bold">
                       Date
@@ -244,18 +248,6 @@ const Category = () => {
                       name="date"
                       placeholder="category date"
                       className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg pl-2 bg-main"
-                    />
-                  </div>
-                  <div className="flex justify-center mt-4">
-                    <label htmlFor="text" className="px-4 font-bold">
-                      User
-                    </label>
-                    <input
-                      defaultValue={editingCategory.User.username}
-                      type="text"
-                      name="userId"
-                      placeholder="User ID"
-                      className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg pl-2"
                     />
                   </div>
                 </div>

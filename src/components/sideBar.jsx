@@ -59,7 +59,7 @@ const SideBar = () => {
 
           <li>
             <Link
-              to="/login"
+              to="incomes"
               className="flex items-center justify-start align-center p-2 text-main rounded-xl hover:bg-main group hover:text-white"
             >
               <svg
@@ -82,7 +82,7 @@ const SideBar = () => {
 
           <li>
             <Link
-              to="/login"
+              to="expenses"
               className="flex items-center justify-start p-2 text-main rounded-xl hover:bg-main group hover:text-white"
             >
               <svg

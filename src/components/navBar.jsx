@@ -1,13 +1,23 @@
-import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Form, useLocation } from "react-router-dom";
 import socket from "../../socket-io";
 const NavBar = () => {
   const location = useLocation();
   const path = location.pathname;
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [notifications,setNotifications] = useState([]);
+  useEffect(()=>{
+    socket.on('confirmUser',(data)=>{
+      console.log(data);
+      setNotifications(notifications=>[...notifications,data]);
+     })
+      setNotifications((notifications) =>
+        notifications.filter((not) => not.authorized !== true)
+      );
+  },[])
   return (
     <>
-      <nav className="bg-[#31353f] flex justify-between">
+      <nav className="bg-[#31353f] flex justify-between items-center">
         <div className="flex items-center p-10">
           <p className="text-white text-2xl font-semibold font-inter">
            {(path.includes('dashboard'))?'Dashboard':(path.includes('category'))?'Categories':null} 
@@ -95,7 +105,8 @@ const NavBar = () => {
               style={{ width: "20rem" }}
             >
               <div className="py-2">
-                <a
+                {notifications.map(notification=>{
+                  return <a key={notification.id}
                   href="#"
                   className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
                 >
@@ -106,67 +117,19 @@ const NavBar = () => {
                   />
                   <p className="text-gray-600 text-sm mx-2">
                     <span className="font-bold" href="#">
-                      Sara Salah
+                     { notification.username}
                     </span>{" "}
-                    replied on the{" "}
-                    <span className="font-bold text-blue-500" href="#">
-                      Upload Image
-                    </span>{" "}
-                    artical . 2m
+                     send a login request
+                     
                   </p>
+                  <Form method="PUT" action={`/user/edit/${notification.id}`}>
+                  <button  className=" font-semibold text-sm text-green-600 mr-2">Confirm</button>
+                  </Form>
+                  <Form method="DELETE" action={`/user/delete/${notification.id}`}>
+                     <button  className=" font-semibold text-sm text-red-600">cancel</button>
+                     </Form>
                 </a>
-                <a
-                  href="#"
-                  className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-                >
-                  <img
-                    className="h-8 w-8 rounded-full object-cover mx-1"
-                    src="https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80"
-                    alt="avatar"
-                  />
-                  <p className="text-gray-600 text-sm mx-2">
-                    <span className="font-bold" href="#">
-                      Slick Net
-                    </span>{" "}
-                    start following you . 45m
-                  </p>
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2"
-                >
-                  <img
-                    className="h-8 w-8 rounded-full object-cover mx-1"
-                    src="https://images.unsplash.com/photo-1450297350677-623de575f31c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80"
-                    alt="avatar"
-                  />
-                  <p className="text-gray-600 text-sm mx-2">
-                    <span className="font-bold" href="#">
-                      Jane Doe
-                    </span>{" "}
-                    Like Your reply on{" "}
-                    <span className="font-bold text-blue-500" href="#">
-                      Test with TDD
-                    </span>{" "}
-                    artical . 1h
-                  </p>
-                </a>
-                <a
-                  href="#"
-                  className="flex items-center px-4 py-3 hover:bg-gray-100 -mx-2"
-                >
-                  <img
-                    className="h-8 w-8 rounded-full object-cover mx-1"
-                    src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=398&q=80"
-                    alt="avatar"
-                  />
-                  <p className="text-gray-600 text-sm mx-2">
-                    <span className="font-bold" href="#">
-                      Abigail Bennett
-                    </span>{" "}
-                    start following you . 3h
-                  </p>
-                </a>
+                })}
               </div>
               <a
                 href="#"

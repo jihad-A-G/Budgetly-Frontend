@@ -51,7 +51,7 @@ const TransactionChart = ({balance,incomes,expenses}) =>{
     };
     return (
     <>
-    <div className='w-[740px]  rounded-lg bg-[#1b2028] p-8 text-white leading-3'>
+    <div className='w-auto col-span-3 rounded-lg bg-[#1b2028] p-8 text-white leading-3'>
         <div className="flex items-center justify-between mb-10 ">
             <h1 className='text-xl font-semibold'>Chart</h1>
             <div className='text-sm font-normal flex items-start gap-5'>
