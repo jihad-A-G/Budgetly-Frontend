@@ -89,6 +89,17 @@ const Category = () => {
                 placeholder="Category Name"
                 className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg"
               />
+             
+             {/* <label className="px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                Username:
+              </label>
+              <input
+                type="text"
+                name="category.User.userId"
+                placeholder="UserId"
+                className="text-sm font-medium leading-6 text-gray-900 border border-main rounded-lg"
+              /> */}
+
               <div className="flex justify-center mt-4">
                 <input
                   type="date"

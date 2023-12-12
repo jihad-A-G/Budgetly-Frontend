@@ -51,11 +51,15 @@ const router = createBrowserRouter([
         },
       },
       {
-        path: "/category",
+        path: "category",
         element: <CategoryPage />,
         loader: async () => {
           try {
-            const response = await fetch("http://localhost:5000/api/category");
+            const response = await fetch("http://localhost:5000/api/category", {
+              headers: {
+                authorization: `Bearer: ${localStorage.getItem("token")}`,
+              },
+            });
             console.log(response);
             return response;
           } catch (error) {
@@ -69,10 +73,16 @@ const router = createBrowserRouter([
             const response = await axios.post(
               "http://localhost:5000/api/category",
               {
+                headers: {
+                  authorization: `Bearer: ${localStorage.getItem("token")}`,
+                },
+              },
+              {
                 ...data,
-                userId: 3,
+                userId: 6,
               }
             );
+            console.log(userId);
             if (response.status == 200) {
               localStorage.setItem("token", response.data.token);
               return redirect("/dashboard");
@@ -94,7 +104,12 @@ const router = createBrowserRouter([
           console.log(data);
           const response = await axios.patch(
             `http://localhost:5000/api/category/${params.id}`,
-            { ...data, userId: 3 }
+            { ...data, userId: 6 },
+            {
+              headers: {
+                authorization: `Bearer: ${localStorage.getItem("token")}`,
+              },
+            }
           );
 
           if (!response) {
@@ -107,7 +122,12 @@ const router = createBrowserRouter([
         path: "category/destroy/:id",
         action: async ({ params }) => {
           const response = await axios.delete(
-            `http://localhost:5000/api/category/${params.id}`
+            `http://localhost:5000/api/category/${params.id}`,
+            {
+              headers: {
+                authorization: `Bearer: ${localStorage.getItem("token")}`,
+              },
+            }
           );
 
           if (!response) {
