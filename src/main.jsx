@@ -16,34 +16,50 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 import socket from '../socket-io.js';
 import { toast } from 'react-toastify';
+import Expense from './components/expense.jsx'
 
 const router = createBrowserRouter([
   {
     path: "/",
+    redirect:'dashboard',
     element: <App />,
     children: [
       {
-        path:'dashboard',
-        index:true,
-        element:<Dashboard/>,
-        loader:async ()=>{
-          try{
-            const data = await axios.get('http://localhost:5000/api/user/dashboard',{headers:{
-              'authorization':`Bearer: ${localStorage.getItem('token')}`
-            }});
-            if(data.status === 403){
-              return redirect('/login');
+        path: "dashboard",
+        index: true,
+        element: <Dashboard />,
+        loader: async () => {
+          try {
+            const data = await axios.get(
+              "http://localhost:5000/api/user/dashboard",
+              {
+                headers: {
+                  authorization: `Bearer: ${localStorage.getItem("token")}`,
+                },
+              }
+            );
+            if (data.status === 403) {
+              return redirect("/login");
             }
-            
+
             return data.data;
-          }catch(err){
+          } catch (err) {
             console.log(err);
-            return redirect('/login');
+            return redirect("/login");
           }
         },
       },
       {
-        path: "/category",
+        path:'incomes',
+        element:<Income/>
+      },
+      {
+        path:'expenses',
+        element:<Expense/>
+      },
+     
+      {
+        path: "category",
         element: <CategoryPage />,
         loader: async () => {
           try {
@@ -58,19 +74,21 @@ const router = createBrowserRouter([
           const formData = await request.formData();
           const data = Object.fromEntries(formData);
           try {
-            const response = await axios.post("http://localhost:5000/api/category", {
-              ...data,
-              userId: 3,
-            });
+            const response = await axios.post(
+              "http://localhost:5000/api/category",
+              {
+                ...data,
+              }
+            );
             if (response.status == 200) {
-              localStorage.setItem("token", response.data.token);
-              return redirect("/dashboard");
+              return redirect("/category");
             } else {
               return redirect("/login");
             }
           } catch (err) {
             console.log(err);
-            return redirect("/category");
+            return redirect("/login");
+            category;
           }
         },
       },
@@ -83,7 +101,7 @@ const router = createBrowserRouter([
           console.log(data);
           const response = await axios.patch(
             `http://localhost:5000/api/category/${params.id}`,
-            { ...data, userId: 3 }
+            { ...data }
           );
 
           if (!response) {
@@ -104,7 +122,7 @@ const router = createBrowserRouter([
           }
           return redirect("/category");
         },
-      },  
+      },
     ],
   },
   {
@@ -117,71 +135,83 @@ const router = createBrowserRouter([
     element: <Login />,
     action: async ({ request }) => {
       const formData = await request.formData();
-      const data= Object.fromEntries(formData);
+      const data = Object.fromEntries(formData);
       let response;
-      try{
-        response = await axios.post('http://localhost:5000/api/auth/login',{...data});
-        if(response.status == 200){
+      try {
+        response = await axios.post("http://localhost:5000/api/auth/login", {
+          ...data,
+        });
+        if (response.status == 200) {
           socket.emit("joinAdminRoom", response.data.user);
 
           localStorage.setItem("token", response.data.token);
-          
+
           store.dispatch(setUserCredentials(response.data.user));
           return redirect("/dashboard");
         }
-          return redirect('/login');
-                
-
-      }catch(err){
+        return redirect("/login");
+      } catch (err) {
         console.log(err);
-      
-     
-          toast.error("Invalid username or password!", {
-            position: "top-left",
-            autoClose: 4000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            theme: "light",
-          });
-       
-        
-          return redirect('/login')}
-    }
-  },
-  {
-    path:'/signup',
-    element:<Signup/>,
-    action:async({request}) =>{
-      const formData= await request.formData();
-      const data= Object.fromEntries(formData);
 
-      const response = await axios.post('http://localhost:5000/api/auth/signup',{...data});
-      return redirect('/login');
-    }
+        toast.error("Invalid username or password!", {
+          position: "top-left",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        });
+
+        return redirect("/login");
+      }
+    },
   },
   {
-    path:'/user/edit/:id',
-    action:async ({params}) =>{
-      const userId= params.id;
-      const response = await axios.put(`http://localhost:5000/api/user/${userId}`,{authorized:true}
-      ,{headers:{
-        'authorization':`Bearer: ${localStorage.getItem('token')}`
-      }});
-      return redirect('/dashboard');
-    }
+    path: "/signup",
+    element: <Signup />,
+    action: async ({ request }) => {
+      const formData = await request.formData();
+      const data = Object.fromEntries(formData);
+
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        { ...data }
+      );
+      return redirect("/login");
+    },
   },
- { path:'/user/delete/:id',
-    action:async ({params}) =>{
-      const userId= params.id;
-      const response = await axios.delete(`http://localhost:5000/api/user/${userId}`,{headers:{
-        'authorization':`Bearer: ${localStorage.getItem('token')}`
-      }});
-      return redirect('/dashboard');
-    }
+  {
+    path: "/user/edit/:id",
+    action: async ({ params }) => {
+      const userId = params.id;
+      const response = await axios.put(
+        `http://localhost:5000/api/user/${userId}`,
+        { authorized: true },
+        {
+          headers: {
+            authorization: `Bearer: ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return redirect("/dashboard");
+    },
   },
-  
+  {
+    path: "/user/delete/:id",
+    action: async ({ params }) => {
+      const userId = params.id;
+      const response = await axios.delete(
+        `http://localhost:5000/api/user/${userId}`,
+        {
+          headers: {
+            authorization: `Bearer: ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return redirect("/dashboard");
+    },
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

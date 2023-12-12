@@ -1,13 +1,20 @@
 import { Pie } from "react-chartjs-2";
 import "chart.js/auto";
-const ExpensePieChart = ({  }) => {
-
+const ExpensePieChart = ({ expenses }) => {
+  const exp =  expenses.reduce((acc, expense) => {
+ if (!acc[expense.Category.category_name]) {
+   acc[expense.Category.category_name] = 0;
+ }
+ acc[expense.Category.category_name] += expense.expense_amount;
+ return acc;
+}, {});
+ 
   const data = {
-   labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+   labels: Object.keys(exp),
   datasets: [
     {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
+      label: 'expenses amount',
+      data: Object.values(exp),
       backgroundColor: [
         'rgba(255, 99, 132, 0.2)',
         'rgba(54, 162, 235, 0.2)',
@@ -57,7 +64,7 @@ const ExpensePieChart = ({  }) => {
   };
   return (
     <>
-      <div className="w-[590px]  rounded-lg bg-[#1b2028] p-8 text-white leading-3">
+      <div className="w-[590px] row-span-2 h-fit rounded-lg bg-[#1b2028] p-8 text-white leading-3">
         <div className="flex items-center justify-between mb-10 ">
           <h1 className="text-xl font-semibold">Pie Chart</h1>
         </div>

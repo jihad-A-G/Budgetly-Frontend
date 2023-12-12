@@ -11,11 +11,11 @@ const Dashboard = () =>{
     return(
         <>
 
-        <main className="w-full h-full flex flex-wrap px-8 py-10 gap-8">
+        <main className="w-full h-full grid grid-cols-dashboard px-8 py-10 gap-8 overflow-auto">
     <TransactionCard name={'Incomes'} amount={data.income_amount} logo={JincomeLogo}/>
     <TransactionCard name={'Expenses'} amount={data.expense_amount} logo={expenseLogo}/>
     <TransactionCard name={'Balance'} amount={data.balance} logo={balanceLogo}/>
-    <ExpensePieChart/>
+    <ExpensePieChart expenses={data.expenses}/>
     <TransactionChart balance={data.balance} incomes={data.incomes} expenses={data.expenses}/>
     
 </main>

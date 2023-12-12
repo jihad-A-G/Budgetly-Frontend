@@ -17,7 +17,7 @@ const NavBar = () => {
   },[])
   return (
     <>
-      <nav className="bg-[#31353f] flex justify-between">
+      <nav className="bg-[#31353f] flex justify-between items-center">
         <div className="flex items-center p-10">
           <p className="text-white text-2xl font-semibold font-inter">
            {(path.includes('dashboard'))?'Dashboard':(path.includes('category'))?'Categories':null} 

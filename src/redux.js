@@ -9,6 +9,12 @@ export const setUserCredentials = (user) =>{
         user,
     }
 }
+export const clearStore= () =>{
+    return {
+        type:'clearStore'
+
+    }
+}
 const persistConfig = {
     key: 'root', // You can customize this key
     storage,
@@ -21,6 +27,11 @@ const persistConfig = {
                         ...state,
                         userCredentials:action.user
                     };
+                    case 'clearStore':
+                        return {
+                            state:undefined,
+                            userCredentials:undefined
+                        }
                     default: return state;
             }
 

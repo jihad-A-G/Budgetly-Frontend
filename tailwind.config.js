@@ -35,6 +35,9 @@ export default {
       borderRadius: {
         '10': '10px',
       },
+       gridTemplateColumns:{
+        'dashboard':'1fr 1fr 1fr 3fr'
+       }
 
     },
   },

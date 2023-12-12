@@ -3,6 +3,7 @@ import NavBar from "./components/navBar";
 import SideBar from "./components/sideBar";
 import { ToastContainer,toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import './App.css'
 const App = () =>{ 
     return (
       <>
@@ -22,7 +23,7 @@ const App = () =>{
         <section className="flex items-start justify-start w-screen h-screen">
           <SideBar />
 
-          <section className="w-full h-full flex flex-col items-center">
+          <section className="w-full h-full flex flex-col">
             <NavBar />
             <Outlet />
           </section>
